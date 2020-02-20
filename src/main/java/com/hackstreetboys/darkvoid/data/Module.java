@@ -15,14 +15,4 @@ public class Module {
     private @OneToMany List<Student> students;
 
     public Module() {}
-
-    public String getModuleCode() { return moduleCode; }
-    public String getModuleName() { return moduleName; }
-    public Staff getCoordinator() { return coordinator; }
-    public List<Student> getStudents() { return students; }
-
-    public void setModuleCode(String moduleCode) { this.moduleCode = moduleCode; }
-    public void setModuleName(String moduleName) { this.moduleName = moduleName; }
-    public void setCoordinator(Staff coordinator) { this.coordinator = coordinator; }
-    public void setStudents(List<Student> students) { this.students = students; }
 }
