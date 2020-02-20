@@ -11,9 +11,19 @@ public class Staff {
     private @Id @GeneratedValue Integer staffId;
     private @NotBlank String firstName;
     private @NotBlank String lastName;
-    private @NotBlank String address;
-    private @NotBlank String phoneNumber;
-    private @NotBlank String email;
+    private @NotBlank String gender;
+    private @NotBlank String nationality;
+    private @NotBlank String username;
+    private @NotBlank String password;
 
     public Staff() {}
+
+    public Staff(String firstName, String lastName, String gender, String nationality, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.nationality = nationality;
+        this.username = username;
+        this.password = password;
+    }
 }

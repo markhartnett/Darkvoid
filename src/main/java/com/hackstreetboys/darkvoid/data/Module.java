@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Data
 @Entity
@@ -12,7 +11,13 @@ public class Module {
     private @Id @GeneratedValue String moduleCode;
     private @NotBlank String moduleName;
     private @OneToOne Staff coordinator;
-    private @OneToMany List<Student> students;
+    private @NotBlank String topics;
 
     public Module() {}
+
+    public Module(String moduleName, Staff coordinator, String topics) {
+        this.moduleName = moduleName;
+        this.coordinator = coordinator;
+        this.topics = topics;
+    }
 }
