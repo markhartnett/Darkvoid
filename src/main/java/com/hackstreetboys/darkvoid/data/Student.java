@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -17,8 +18,8 @@ public class Student {
     private @NotBlank String email;
     private @NotBlank String gender;
     private @NotBlank String nationality;
-    private @NotBlank float feesdue;
-    private @NotBlank float feespaid;
+    private @NotNull float feesdue;
+    private @NotNull float feespaid;
 
 
     public Student() {}

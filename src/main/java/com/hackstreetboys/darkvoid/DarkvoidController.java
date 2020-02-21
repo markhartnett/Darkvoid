@@ -69,9 +69,14 @@ public class DarkvoidController {
         Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
         student.setFirstName(studentDetails.getFirstName());
         student.setLastName(studentDetails.getLastName());
-        student.setAddress(studentDetails.getAddress());
+        student.setUsername(studentDetails.getUsername());
+        student.setPassword(studentDetails.getPassword());
         student.setPhoneNumber(studentDetails.getPhoneNumber());
         student.setEmail(studentDetails.getEmail());
+        student.setGender(studentDetails.getGender());
+        student.setNationality(studentDetails.getNationality());
+        student.setFeesdue(studentDetails.getFeesdue());
+        student.setFeespaid(studentDetails.getFeespaid());
         return studentRepository.save(student);
     }
 
@@ -81,9 +86,10 @@ public class DarkvoidController {
         Staff staff = staffRepository.findById(id).orElseThrow(() -> new StaffNotFoundException(id));
         staff.setFirstName(staffDetails.getFirstName());
         staff.setLastName(staffDetails.getLastName());
-        staff.setAddress(staffDetails.getAddress());
-        staff.setPhoneNumber(staffDetails.getPhoneNumber());
-        staff.setEmail(staffDetails.getEmail());
+        staff.setGender(staffDetails.getGender());
+        staff.setNationality(staffDetails.getNationality());
+        staff.setUsername(staffDetails.getUsername());
+        staff.setPassword(staffDetails.getPassword());
         return staffRepository.save(staff);
     }
 
@@ -93,7 +99,7 @@ public class DarkvoidController {
         Module module = moduleRepository.findById(code).orElseThrow(() -> new ModuleNotFoundException(code));
         module.setModuleName(moduleDetails.getModuleName());
         module.setCoordinator(moduleDetails.getCoordinator());
-        module.setStudents(moduleDetails.getStudents());
+        module.setTopics(moduleDetails.getTopics());
         return moduleRepository.save(module);
     }
 
