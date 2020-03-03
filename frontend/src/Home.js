@@ -2,7 +2,8 @@ import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import Button from "react-bootstrap/Button";
 import React from "react";
 import Stats from "./Stats";
-import {Signup, Login} from "./Forms";
+import Signup from "./forms/signup";
+import Login from "./forms/login";
 import ReactDOM from "react-dom";
 
 class Home extends React.Component {
