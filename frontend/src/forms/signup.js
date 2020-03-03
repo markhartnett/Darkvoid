@@ -7,12 +7,11 @@ import {client} from "hawk";
 class Signup extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {username: '', firstName: '', surname: '', snum: '', address: '', pnum: '', email: '', gender: '', nationality: ''};
+        this.state = {username: '', firstName: '', surname: '', address: '', pnum: '', email: '', gender: '', nationality: ''};
 
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleChangeSurname = this.handleChangeSurname.bind(this);
-        this.handleChangeSnum = this.handleChangeSnum.bind(this);
         this.handleChangeAddress = this.handleChangeAddress.bind(this);
         this.handleChangePnum = this.handleChangePnum.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -31,10 +30,6 @@ class Signup extends React.Component {
 
     handleChangeSurname(event) {
         this.setState({surname: event.target.value});
-    }
-
-    handleChangeSnum(event) {
-        this.setState({snum: event.target.value});
     }
 
     handleChangeAddress(event) {
@@ -58,13 +53,23 @@ class Signup extends React.Component {
     }
 
     handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.firstName);
-        console.log(this.state.firstName);
-        client({
-            method: 'POST',
-            path: '/students'
-
-        });
+        fetch('/students',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: this.state.username,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    phoneNumber: this.state.pnum,
+                    email: this.state.email,
+                    gender: this.state.gender,
+                    nationality: this.state.username
+                })
+            });
         event.preventDefault();
     }
 
@@ -84,10 +89,6 @@ class Signup extends React.Component {
                     <label>
                         Surname Name:
                         <input type="text" name="surname" value={this.state.surname} onChange={this.handleChangeSurname}/>
-                    </label><br/>
-                    <label>
-                        Student Number:
-                        <input type="text" name="snum" value={this.state.snum} onChange={this.handleChangeSnum}/>
                     </label><br/>
                     <label>
                         Address:
