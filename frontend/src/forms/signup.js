@@ -7,15 +7,22 @@ import {client} from "hawk";
 class Signup extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {firstName: '', surname: '', snum: '', address: '', pnum: '', email: ''};
+        this.state = {username: '', firstName: '', surname: '', snum: '', address: '', pnum: '', email: '', gender: '', nationality: ''};
 
+        this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleChangeSurname = this.handleChangeSurname.bind(this);
         this.handleChangeSnum = this.handleChangeSnum.bind(this);
         this.handleChangeAddress = this.handleChangeAddress.bind(this);
         this.handleChangePnum = this.handleChangePnum.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangeNationality = this.handleChangeNationality.bind(this);
+        this.handleChangeGender = this.handleChangeGender.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChangeUsername(event) {
+        this.setState({username: event.target.value});
     }
 
     handleChangeName(event) {
@@ -42,26 +49,34 @@ class Signup extends React.Component {
         this.setState({email: event.target.value});
     }
 
-    handleSubmit(event) {
-        //alert('A name was submitted: ' + this.state.firstName);
-        //console.log(this.state.firstName);
-        /*var id;                                   // Need to get ID of created student/staff to updates
-        client({method: 'POST', path: '/students'}).done(response => {
-            id =
-            this.setState({employees: response.entity._embedded.employees});
-        });
+    handleChangeGender(event) {
+        this.setState({gender: event.target.value});
+    }
 
-        client({method: 'PUT', path: '/students'}).done(response => {
-            this.setState({employees: response.entity._embedded.employees});
-        });*/
+    handleChangeNationality(event) {
+        this.setState({nationality: event.target.value});
+    }
+
+    handleSubmit(event) {
+        alert('A name was submitted: ' + this.state.firstName);
+        console.log(this.state.firstName);
+        client({
+            method: 'POST',
+            path: '/students'
+
+        });
         event.preventDefault();
     }
 
     render() {
         return (
             <div className="signup">
-                <h1>Can signup here</h1>
+                <h1>Student Sign Up</h1>
                 <form>
+                    <label>
+                        Username:
+                        <input type="text" name="name" value={this.state.username} onChange={this.handleChangeUsername}/>
+                    </label><br/>
                     <label>
                         First Name:
                         <input type="text" name="name" value={this.state.firstName} onChange={this.handleChangeName}/>
@@ -85,6 +100,19 @@ class Signup extends React.Component {
                     <label>
                         Email:
                         <input type="text" name="email" value={this.state.email} onChange={this.handleChangeEmail}/>
+                    </label><br/>
+                    <label>
+                        Gender:
+                        <select id="gender" name="gender" value={this.state.gender} onChange={this.handleChangeGender}>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            <option value="preferNot">Prefer Not to Say</option>
+                        </select>
+                    </label><br/>
+                    <label>
+                        Nationality:
+                        <input type="text" name="email" value={this.state.nationality} onChange={this.handleChangeNationality}/>
                     </label><br/>
                     <input type="submit" value="Submit"/>
                 </form>
