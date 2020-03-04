@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Entity
 public class Staff {
-    private @Id @GeneratedValue Integer staffId;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Integer staffId;
     private @NotBlank String firstName;
     private @NotBlank String lastName;
     private @NotBlank String gender;

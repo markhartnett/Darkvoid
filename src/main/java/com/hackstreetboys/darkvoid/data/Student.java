@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 public class Student {
-    private @Id @GeneratedValue Integer studentId;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Integer studentId;
     private @NotBlank String firstName;
     private @NotBlank String lastName;
     private @NotBlank String username;

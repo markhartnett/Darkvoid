@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,6 +17,7 @@ public class DarkvoidController {
     @Autowired StudentRepository studentRepository;
     @Autowired StaffRepository staffRepository;
     @Autowired ModuleRepository moduleRepository;
+    @Autowired ModuleEnrolmentRepository moduleEnrolmentRepository;
 
     // ===============================================================
     // GET mappings
@@ -25,6 +27,8 @@ public class DarkvoidController {
     public List<Staff> getAllStaff() { return staffRepository.findAll(); }
     @GetMapping("/modules")
     public List<Module> getAllModules() { return moduleRepository.findAll(); }
+    @GetMapping("/moduleEnrolment")
+    public List<ModuleEnrolment> getAllModuleEnrolments() { return moduleEnrolmentRepository.findAll(); }
 
     @GetMapping("/students/{id}")
     public Student getStudentById(@PathVariable(value = "id") Integer id) throws StudentNotFoundException{
@@ -38,10 +42,29 @@ public class DarkvoidController {
                 .orElseThrow(() -> new StaffNotFoundException(id));
     }
 
-    @GetMapping("/modules/{code}")
-    public Module getStudentById(@PathVariable(value = "code") String code) throws ModuleNotFoundException{
-        return moduleRepository.findById(code)
-                .orElseThrow(() -> new ModuleNotFoundException(code));
+    @GetMapping("/modules/{id}")
+    public Module getModuleById(@PathVariable(value = "id") String id) throws ModuleNotFoundException{
+        return moduleRepository.findById(id)
+                .orElseThrow(() -> new ModuleNotFoundException(id));
+    }
+
+    @GetMapping("/moduleEnrolments/{id}")
+    public List<List<String>> getModulesAndGradesByStudentId(@PathVariable(value = "id") Integer id){
+        List<ModuleEnrolment> enrolments = moduleEnrolmentRepository.findAll();
+
+        List<List<String>> modulesAndGrades = new ArrayList<List<String>>();
+
+        for (ModuleEnrolment enrolment:enrolments) {
+            if(enrolment.getStudent().getStudentId()==id){
+                List<String> moduleAndGrade = new ArrayList<>();
+                moduleAndGrade.add(enrolment.getModule().getModuleId());
+                moduleAndGrade.add(enrolment.getGrade());
+
+                modulesAndGrades.add(moduleAndGrade);
+            }
+        }
+
+        return modulesAndGrades;
     }
 
     // ===============================================================
@@ -59,6 +82,55 @@ public class DarkvoidController {
     @PostMapping("/module")
     public Module createModule(@Valid @RequestBody Module module){
         return moduleRepository.save(module);
+    }
+
+    @PostMapping("/moduleEnrolment")
+    public ModuleEnrolment createModuleEnrolment(@Valid @RequestBody ModuleEnrolment moduleEnrolment){
+        return moduleEnrolmentRepository.save(moduleEnrolment);
+    }
+
+
+    @PostMapping("/enrol/{studentId}/{moduleId}")
+    public void enrolStudent(@PathVariable(value = "studentId") Integer studentId, @PathVariable(value = "moduleId") String moduleId) throws ModuleNotFoundException, StudentNotFoundException {
+        Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new ModuleNotFoundException(moduleId));
+        module.setNumberOfStudents(module.getNumberOfStudents()+1);
+
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException(studentId));
+
+        createModuleEnrolment(new ModuleEnrolment(module,student,""));
+        moduleRepository.save(module);
+    }
+
+    @PostMapping("/cancelEnrolment/{studentId}/{moduleId}")
+    public void cancelEnrolment(@PathVariable(value = "studentId") Integer studentId, @PathVariable(value = "moduleId") String moduleId) throws ModuleNotFoundException, StudentNotFoundException, ModuleEnrolmentNotFoundException {
+        Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new ModuleNotFoundException(moduleId));
+        module.setNumberOfStudents(module.getNumberOfStudents()-1);
+
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException(studentId));
+
+        int enrolmentId = 0;
+
+        for (ModuleEnrolment moduleEnrolment:moduleEnrolmentRepository.findAll()) {
+            if(moduleEnrolment.getStudent().equals(student) && moduleEnrolment.getModule().equals(module)){
+                enrolmentId = moduleEnrolment.getEnrolmentId();
+            }
+        }
+
+        deleteModuleEnrolment(enrolmentId);
+        moduleRepository.save(module);
+    }
+
+    @PostMapping("/students/{id}")
+    public void studentDropOut(@PathVariable(value = "id") Integer id) throws StudentNotFoundException, ModuleEnrolmentNotFoundException {
+        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
+
+        for (ModuleEnrolment moduleEnrolment:moduleEnrolmentRepository.findAll()) {
+            if(moduleEnrolment.getStudent().equals(student)){
+                deleteModuleEnrolment(moduleEnrolment.getEnrolmentId());
+            }
+        }
+
+        deleteStudent(student.getStudentId());
     }
 
     // ===============================================================
@@ -93,10 +165,10 @@ public class DarkvoidController {
         return staffRepository.save(staff);
     }
 
-    @PutMapping("/module/{code}")
-    public Module updateModule(@PathVariable(value = "code") String code,
+    @PutMapping("/modules/{id}")
+    public Module updateModule(@PathVariable(value = "id") String id,
                                @Valid @RequestBody Module moduleDetails) throws ModuleNotFoundException{
-        Module module = moduleRepository.findById(code).orElseThrow(() -> new ModuleNotFoundException(code));
+        Module module = moduleRepository.findById(id).orElseThrow(() -> new ModuleNotFoundException(id));
         module.setModuleName(moduleDetails.getModuleName());
         module.setCoordinator(moduleDetails.getCoordinator());
         module.setTopics(moduleDetails.getTopics());
@@ -119,10 +191,17 @@ public class DarkvoidController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/module/{code}")
-    public ResponseEntity<?> deleteModule(@PathVariable(value = "code") String code) throws ModuleNotFoundException{
-        Module module = moduleRepository.findById(code).orElseThrow(() -> new ModuleNotFoundException(code));
+    @DeleteMapping("/modules/{id}")
+    public ResponseEntity<?> deleteModule(@PathVariable(value = "id") String id) throws ModuleNotFoundException{
+        Module module = moduleRepository.findById(id).orElseThrow(() -> new ModuleNotFoundException(id));
         moduleRepository.delete(module);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/moduleEnrolments/{id}")
+    public ResponseEntity<?> deleteModuleEnrolment(@PathVariable(value = "id") int id) throws ModuleEnrolmentNotFoundException{
+        ModuleEnrolment moduleEnrolment = moduleEnrolmentRepository.findById(id).orElseThrow(() -> new ModuleEnrolmentNotFoundException(id));
+        moduleEnrolmentRepository.delete(moduleEnrolment);
         return ResponseEntity.ok().build();
     }
 }
