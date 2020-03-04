@@ -59,7 +59,6 @@ class Signup extends React.Component {
     handleSubmit(event) {
         // TODO
         // Check username is unique, between Students + Staff
-        // Throw error if None gender selected
         // Go back to home after submit
         if (this.state.username === '' ||
             this.state.firstName === '' ||
@@ -89,7 +88,14 @@ class Signup extends React.Component {
                         "gender": String(this.state.gender),
                         "nationality": String(this.state.username)
                     })
-                });
+                }).then((response) => {
+                    if (response.status == 200) {
+                        ReactDOM.render(<Home/>, document.getElementById('root'));
+                    } else {
+                        alert("Error " + response.status + " occurred");
+                    }
+                }
+            );
         }
         event.preventDefault();
     }
