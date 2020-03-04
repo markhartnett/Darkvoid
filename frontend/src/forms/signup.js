@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import Button from "react-bootstrap/Button";
 import Home from "../Home";
-import {client} from "hawk";
 
 class Signup extends React.Component {
     constructor(props) {
@@ -53,6 +52,8 @@ class Signup extends React.Component {
     }
 
     handleSubmit(event) {
+        // TODO
+        // Check username is unique, between Students + Staff
         fetch('/students',
             {
                 method: 'POST',
@@ -77,7 +78,7 @@ class Signup extends React.Component {
         return (
             <div className="signup">
                 <h1>Student Sign Up</h1>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <label>
                         Username:
                         <input type="text" name="name" value={this.state.username} onChange={this.handleChangeUsername}/>
