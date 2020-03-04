@@ -21,33 +21,44 @@ public class DarkvoidController {
 
     // ===============================================================
     // GET mappings
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/students")
     public List<Student> getAllStudents() { return studentRepository.findAll(); }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/staff")
     public List<Staff> getAllStaff() { return staffRepository.findAll(); }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/modules")
     public List<Module> getAllModules() { return moduleRepository.findAll(); }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/moduleEnrolment")
     public List<ModuleEnrolment> getAllModuleEnrolments() { return moduleEnrolmentRepository.findAll(); }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/students/{id}")
     public Student getStudentById(@PathVariable(value = "id") Integer id) throws StudentNotFoundException{
         return studentRepository.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException(id));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/staff/{id}")
     public Staff getStaffById(@PathVariable(value = "id") Integer id) throws StaffNotFoundException{
         return staffRepository.findById(id)
                 .orElseThrow(() -> new StaffNotFoundException(id));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/modules/{id}")
     public Module getModuleById(@PathVariable(value = "id") String id) throws ModuleNotFoundException{
         return moduleRepository.findById(id)
                 .orElseThrow(() -> new ModuleNotFoundException(id));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/moduleEnrolments/{id}")
     public List<List<String>> getModulesAndGradesByStudentId(@PathVariable(value = "id") Integer id){
         List<ModuleEnrolment> enrolments = moduleEnrolmentRepository.findAll();
@@ -69,27 +80,31 @@ public class DarkvoidController {
 
     // ===============================================================
     // POST mappings
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/students")
     public Student createStudent(@Valid @RequestBody Student student){
         return studentRepository.save(student);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/staff")
     public Staff createStaff(@Valid @RequestBody Staff staff){
         return staffRepository.save(staff);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/module")
     public Module createModule(@Valid @RequestBody Module module){
         return moduleRepository.save(module);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/moduleEnrolment")
     public ModuleEnrolment createModuleEnrolment(@Valid @RequestBody ModuleEnrolment moduleEnrolment){
         return moduleEnrolmentRepository.save(moduleEnrolment);
     }
 
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/enrol/{studentId}/{moduleId}")
     public void enrolStudent(@PathVariable(value = "studentId") Integer studentId, @PathVariable(value = "moduleId") String moduleId) throws ModuleNotFoundException, StudentNotFoundException {
         Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new ModuleNotFoundException(moduleId));
@@ -101,6 +116,7 @@ public class DarkvoidController {
         moduleRepository.save(module);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/cancelEnrolment/{studentId}/{moduleId}")
     public void cancelEnrolment(@PathVariable(value = "studentId") Integer studentId, @PathVariable(value = "moduleId") String moduleId) throws ModuleNotFoundException, StudentNotFoundException, ModuleEnrolmentNotFoundException {
         Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new ModuleNotFoundException(moduleId));
@@ -120,6 +136,7 @@ public class DarkvoidController {
         moduleRepository.save(module);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/students/{id}")
     public void studentDropOut(@PathVariable(value = "id") Integer id) throws StudentNotFoundException, ModuleEnrolmentNotFoundException {
         Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
@@ -135,6 +152,7 @@ public class DarkvoidController {
 
     // ===============================================================
     // PUT mappings
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/students/{id}")
     public Student updateStudent(@PathVariable(value = "id") Integer id,
                                  @Valid @RequestBody Student studentDetails) throws StudentNotFoundException{
@@ -152,6 +170,7 @@ public class DarkvoidController {
         return studentRepository.save(student);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/staff/{id}")
     public Staff updateStaff(@PathVariable(value = "id") Integer id,
                              @Valid @RequestBody Staff staffDetails) throws StaffNotFoundException{
@@ -165,6 +184,7 @@ public class DarkvoidController {
         return staffRepository.save(staff);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/modules/{id}")
     public Module updateModule(@PathVariable(value = "id") String id,
                                @Valid @RequestBody Module moduleDetails) throws ModuleNotFoundException{
@@ -177,6 +197,7 @@ public class DarkvoidController {
 
     // ===============================================================
     // DELETE mappings
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/students/{id}")
     public ResponseEntity<?> deleteStudent(@PathVariable(value = "id") Integer id) throws StudentNotFoundException{
         Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
@@ -184,6 +205,7 @@ public class DarkvoidController {
         return ResponseEntity.ok().build();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/staff/{id}")
     public ResponseEntity<?> deleteStaff(@PathVariable(value = "id") Integer id) throws StaffNotFoundException{
         Staff staff = staffRepository.findById(id).orElseThrow(() -> new StaffNotFoundException(id));
@@ -191,6 +213,7 @@ public class DarkvoidController {
         return ResponseEntity.ok().build();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/modules/{id}")
     public ResponseEntity<?> deleteModule(@PathVariable(value = "id") String id) throws ModuleNotFoundException{
         Module module = moduleRepository.findById(id).orElseThrow(() -> new ModuleNotFoundException(id));
@@ -198,6 +221,7 @@ public class DarkvoidController {
         return ResponseEntity.ok().build();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/moduleEnrolments/{id}")
     public ResponseEntity<?> deleteModuleEnrolment(@PathVariable(value = "id") int id) throws ModuleEnrolmentNotFoundException{
         ModuleEnrolment moduleEnrolment = moduleEnrolmentRepository.findById(id).orElseThrow(() -> new ModuleEnrolmentNotFoundException(id));

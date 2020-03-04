@@ -6,9 +6,10 @@ import Home from "../Home";
 class Signup extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {username: '', firstName: '', surname: '', address: '', pnum: '', email: '', gender: '', nationality: ''};
+        this.state = {username: '', password: '', firstName: '', surname: '', address: '', pnum: '', email: '', gender: '', nationality: ''};
 
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleChangeSurname = this.handleChangeSurname.bind(this);
         this.handleChangeAddress = this.handleChangeAddress.bind(this);
@@ -21,6 +22,10 @@ class Signup extends React.Component {
 
     handleChangeUsername(event) {
         this.setState({username: event.target.value});
+    }
+
+    handleChangePassword(event) {
+        this.setState({password: event.target.value});
     }
 
     handleChangeName(event) {
@@ -54,7 +59,9 @@ class Signup extends React.Component {
     handleSubmit(event) {
         // TODO
         // Check username is unique, between Students + Staff
-        fetch('/students',
+        // Throw error if None gender selected
+        // Go back to home after submit
+        fetch('http://localhost:8080/students',
             {
                 method: 'POST',
                 headers: {
@@ -62,13 +69,14 @@ class Signup extends React.Component {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: this.state.username,
-                    firstName: this.state.firstName,
-                    lastName: this.state.lastName,
-                    phoneNumber: this.state.pnum,
-                    email: this.state.email,
-                    gender: this.state.gender,
-                    nationality: this.state.username
+                    "username": String(this.state.username),
+                    "firstName": String(this.state.firstName),
+                    "lastName": String(this.state.lastName),
+                    "phoneNumber": String(this.state.pnum),
+                    "password": String(this.state.password),
+                    "email": String(this.state.email),
+                    "gender": String(this.state.gender),
+                    "nationality": String(this.state.username)
                 })
             });
         event.preventDefault();
@@ -82,6 +90,10 @@ class Signup extends React.Component {
                     <label>
                         Username:
                         <input type="text" name="name" value={this.state.username} onChange={this.handleChangeUsername}/>
+                    </label><br/>
+                    <label>
+                        Password:
+                        <input type="text" name="password" value={this.state.password} onChange={this.handleChangePassword}/>
                     </label><br/>
                     <label>
                         First Name:
@@ -106,6 +118,7 @@ class Signup extends React.Component {
                     <label>
                         Gender:
                         <select id="gender" name="gender" value={this.state.gender} onChange={this.handleChangeGender}>
+                            <option value="None">-- Select --</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="other">Other</option>
