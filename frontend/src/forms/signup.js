@@ -61,24 +61,36 @@ class Signup extends React.Component {
         // Check username is unique, between Students + Staff
         // Throw error if None gender selected
         // Go back to home after submit
-        fetch('http://localhost:8080/students',
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "username": String(this.state.username),
-                    "firstName": String(this.state.firstName),
-                    "lastName": String(this.state.lastName),
-                    "phoneNumber": String(this.state.pnum),
-                    "password": String(this.state.password),
-                    "email": String(this.state.email),
-                    "gender": String(this.state.gender),
-                    "nationality": String(this.state.username)
-                })
-            });
+        if (this.state.username === '' ||
+            this.state.firstName === '' ||
+            this.state.lastName === '' ||
+            this.state.phoneNumber === '' ||
+            this.state.password === '' ||
+            this.state.email === '' ||
+            this.state.gender === '' ||
+            this.state.nationality === ''
+            ) {
+            alert("Please select a value for all options");
+        } else {
+            fetch('http://localhost:8080/students',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "username": String(this.state.username),
+                        "firstName": String(this.state.firstName),
+                        "lastName": String(this.state.lastName),
+                        "phoneNumber": String(this.state.pnum),
+                        "password": String(this.state.password),
+                        "email": String(this.state.email),
+                        "gender": String(this.state.gender),
+                        "nationality": String(this.state.username)
+                    })
+                });
+        }
         event.preventDefault();
     }
 
@@ -118,7 +130,7 @@ class Signup extends React.Component {
                     <label>
                         Gender:
                         <select id="gender" name="gender" value={this.state.gender} onChange={this.handleChangeGender}>
-                            <option value="None">-- Select --</option>
+                            <option value="">-- Select --</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="other">Other</option>
