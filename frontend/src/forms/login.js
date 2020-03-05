@@ -47,26 +47,33 @@ class Login extends React.Component {
                 }
             }
         );
-
-        fetch('http://localhost:8080/staff',
+        const url = String(this.state.username) + '/' + String(this.state.password);
+        const studentId = fetch('http://localhost:8080/login/student/' + url,
             {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
-            }).then((response) => {
-                if (response.status === 200) {
+            }).then(response => response.json());
 
-
-
-                    ReactDOM.render(<Home/>, document.getElementById('root'));
-                    return;
-                } else {
-                    alert("Error " + response.status + " occurred");
-                }
-            }
-        );
+        console.log("ID: " + studentId);
+        //if (studentId !== -1) {
+            const student = fetch('http://localhost:8080/' + studentId,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                }).then(response => response.json());
+        console.log("student " + student);
+        console.log("Name: " + student.name);
+        //    const cookies = new Cookies();
+        //    cookies.set('name', student.name, { path: '/' });
+        //    cookies.set('loggedIn', 'true', { path: '/' });
+        //    cookies.set('staff', 'false', { path: '/' });
+        //}
 
 
 

@@ -79,14 +79,25 @@ public class DarkvoidController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/login/{username}/{password}")
-    public boolean checkLogin(@PathVariable(value = "username") String username, @PathVariable(value = "password") String password){
+    @GetMapping("/login/student/{username}/{password}")
+    public int checkLoginStudent(@PathVariable(value = "username") String username, @PathVariable(value = "password") String password){
         for (Student student:getAllStudents()) {
             if(student.getUsername().equals(username) && student.getPassword().equals(password)){
-                return true;
+                return student.getID();
             }
         }
-        return false;
+        return -1;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/login/staff/{username}/{password}")
+    public int checkLoginStaff(@PathVariable(value = "username") String username, @PathVariable(value = "password") String password){
+        for (Staff staff:getAllStaff()) {
+            if(staff.getUsername().equals(username) && staff.getPassword().equals(password)){
+                return staff.getID();
+            }
+        }
+        return -1;
     }
 
     // ===============================================================

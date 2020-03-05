@@ -37,4 +37,8 @@ public class Student {
         this.feesdue = feesdue;
         this.feespaid = feespaid;
     }
+
+    public int getID() {
+        return studentId;
+    }
 }

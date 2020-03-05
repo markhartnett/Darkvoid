@@ -59,7 +59,6 @@ class Signup extends React.Component {
     handleSubmit(event) {
         // TODO
         // Check username is unique, between Students + Staff
-        // Go back to home after submit
         if (this.state.username === '' ||
             this.state.firstName === '' ||
             this.state.lastName === '' ||

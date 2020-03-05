@@ -26,4 +26,8 @@ public class Staff {
         this.username = username;
         this.password = password;
     }
+
+    public int getID() {
+        return staffId;
+    }
 }
