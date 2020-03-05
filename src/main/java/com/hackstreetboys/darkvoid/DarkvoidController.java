@@ -66,7 +66,7 @@ public class DarkvoidController {
         List<List<String>> modulesAndGrades = new ArrayList<List<String>>();
 
         for (ModuleEnrolment enrolment:enrolments) {
-            if(enrolment.getStudent().getStudentId()==id){
+            if(enrolment.getStudent().getStudentId().equals(id)){
                 List<String> moduleAndGrade = new ArrayList<>();
                 moduleAndGrade.add(enrolment.getModule().getModuleId());
                 moduleAndGrade.add(enrolment.getGrade());
@@ -82,7 +82,7 @@ public class DarkvoidController {
     @GetMapping("/login/{username}/{password}")
     public boolean checkLogin(@PathVariable(value = "username") String username, @PathVariable(value = "password") String password) throws StudentNotFoundException{
         for (Student student:getAllStudents()) {
-            if(student.getUsername() == username && student.getPassword() == password){
+            if(student.getUsername().equals(username) && student.getPassword().equals(password)){
                 return true;
             }
         }
