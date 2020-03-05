@@ -78,6 +78,17 @@ public class DarkvoidController {
         return modulesAndGrades;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/login/{username}/{password}")
+    public boolean checkLogin(@PathVariable(value = "username") String username, @PathVariable(value = "password") String password) throws StudentNotFoundException{
+        for (Student student:getAllStudents()) {
+            if(student.getUsername() == username && student.getPassword() == password){
+                return true;
+            }
+        }
+        return false;
+    }
+
     // ===============================================================
     // POST mappings
     @CrossOrigin(origins = "http://localhost:3000")
