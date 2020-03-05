@@ -89,7 +89,7 @@ class Signup extends React.Component {
                         "nationality": String(this.state.username)
                     })
                 }).then((response) => {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         ReactDOM.render(<Home/>, document.getElementById('root'));
                     } else {
                         alert("Error " + response.status + " occurred");
