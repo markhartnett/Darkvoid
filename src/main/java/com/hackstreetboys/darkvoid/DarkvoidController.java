@@ -80,7 +80,7 @@ public class DarkvoidController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/login/{username}/{password}")
-    public boolean checkLogin(@PathVariable(value = "username") String username, @PathVariable(value = "password") String password) throws StudentNotFoundException{
+    public boolean checkLogin(@PathVariable(value = "username") String username, @PathVariable(value = "password") String password){
         for (Student student:getAllStudents()) {
             if(student.getUsername().equals(username) && student.getPassword().equals(password)){
                 return true;
@@ -204,6 +204,28 @@ public class DarkvoidController {
         module.setCoordinator(moduleDetails.getCoordinator());
         module.setTopics(moduleDetails.getTopics());
         return moduleRepository.save(module);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/moduleEnrolments/{id}")
+    public ModuleEnrolment updateModuleEnrolments(@PathVariable(value = "id") Integer id,
+                               @Valid @RequestBody ModuleEnrolment moduleEnrolmentDetails) throws ModuleEnrolmentNotFoundException{
+        ModuleEnrolment moduleEnrolment = moduleEnrolmentRepository.findById(id).orElseThrow(() -> new ModuleEnrolmentNotFoundException(id));
+        moduleEnrolment.setEnrolmentId(moduleEnrolmentDetails.getEnrolmentId());
+        moduleEnrolment.setGrade(moduleEnrolmentDetails.getGrade());
+        moduleEnrolment.setModule(moduleEnrolmentDetails.getModule());
+        moduleEnrolment.setStudent(moduleEnrolmentDetails.getStudent());
+        return moduleEnrolmentRepository.save(moduleEnrolment);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/changeGrade/{studentId}/{moduleId}/{newGrade}")
+    public void changeGrade(@PathVariable(value = "studentId") Integer studentId,@PathVariable(value = "moduleId") String moduleId,@PathVariable(value = "newGrade") String newGrade) throws ModuleEnrolmentNotFoundException{
+        for (ModuleEnrolment moduleEnrolment: getAllModuleEnrolments()) {
+            if(moduleEnrolment.getStudent().getStudentId().equals(studentId) && moduleEnrolment.getModule().getModuleId().equals(moduleId)){
+                updateModuleEnrolments(moduleEnrolment.getEnrolmentId(),moduleEnrolment);
+            }
+        }
     }
 
     // ===============================================================
