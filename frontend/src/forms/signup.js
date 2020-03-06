@@ -80,7 +80,7 @@ class Signup extends React.Component {
                     body: JSON.stringify({
                         "username": String(this.state.username),
                         "firstName": String(this.state.firstName),
-                        "lastName": String(this.state.lastName),
+                        "lastName": String(this.state.surname),
                         "phoneNumber": String(this.state.pnum),
                         "password": String(this.state.password),
                         "email": String(this.state.email),

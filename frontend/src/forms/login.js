@@ -21,16 +21,21 @@ class Login extends React.Component {
         this.setState({password: event.target.value});
     }
 
-    async handleSubmit(event) {
+    handleSubmit(event) {
+        const s = this.state;
+
+        const p = this.performLogin(s);
+
+        //event.preventDefault();
+    }
+
+    async performLogin(s) {
         // TODO
-        // Call for Students + Staff
-        // Check all usernames til entered on is found
-        // If not found, end. If found, check password
         // If password is accurate, update loggedIn and staff cookies, return to home
 
-        alert("Username: " + this.state.username);
-        alert("Password: " + this.state.password);
-        const url = String(this.state.username) + '/' + String(this.state.password);
+        alert("Username: " + s.username);
+        alert("Password: " + s.password);
+        const url = String(s.username) + '/' + String(s.password);
         const studentId = await fetch('http://localhost:8080/login/student/' + url,
             {
                 method: 'GET',
@@ -51,18 +56,19 @@ class Login extends React.Component {
                         'Content-Type': 'application/json'
                     },
                 }).then(response => response.json());
-        //    const cookies = new Cookies();
-        //    cookies.set('name', student.name, { path: '/' });
-        //    cookies.set('loggedIn', 'true', { path: '/' });
-        //    cookies.set('staff', 'false', { path: '/' });
+            //    const cookies = new Cookies();
+            //    cookies.set('name', student.name, { path: '/' });
+            //    cookies.set('loggedIn', 'true', { path: '/' });
+            //    cookies.set('staff', 'false', { path: '/' });
             alert("student " + student);
             alert("Name: " + student.name);
         }
 
         alert("ID: " + studentId);
+    };
 
-        event.preventDefault();
-    }
+
+
 
     render() {
         return (
