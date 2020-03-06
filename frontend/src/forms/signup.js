@@ -103,7 +103,7 @@ class Signup extends React.Component {
         return (
             <div className="signup">
                 <h1>Student Sign Up</h1>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={() => this.handleSubmit}>
                     <label>
                         Username:
                         <input type="text" name="name" value={this.state.username} onChange={this.handleChangeUsername}/>
