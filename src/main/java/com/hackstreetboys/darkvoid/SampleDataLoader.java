@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hackstreetboys.darkvoid.data.*;
+import com.hackstreetboys.darkvoid.data.Module;
 import com.hackstreetboys.darkvoid.database.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.*;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class SampleDataLoader implements ApplicationRunner {
     private final int NUMBER_OF_STUDENTS = 30;
     private final int NUMBER_OF_STAFF = 5;
+    private final int NUMBER_OF_MODULES = 7;
     private final List<String> USERNAMES = new ArrayList<>();
     @Autowired private StudentRepository students;
     @Autowired private StaffRepository staff;
@@ -35,6 +37,10 @@ public class SampleDataLoader implements ApplicationRunner {
     private final String[] NATIONALITIES = {"Irish", "Polish", "British", "French", "German", "Spanish", "Italian",
             "Indian", "Russian", "Ukrainian", "Chinese", "Serbian", "Croatian", "Bosnian", "Hungarian", "Romanian",
             "Austrian"};
+    private final String[] MODULE_CODES = {"COMP47660","COMP47650","COMP40020","COMP40660","COMP47390","COMP47480","COMP47680"};
+    private final String[] MODULE_NAMES = {"Secure Software Engineering","Deep Learning","Human Language Technologies",
+            "Advances in Wireless Networking","Mobile App Dev - Cocoa Touch","Contemporary Software Development","Human Computer Interaction"};
+    private final String[] MODULE_TOPICS = {"Spring, SQL, SQL Injections","Forward Prop, Back Prop, Classification", "Natural Language Processing, Parse Trees, Lexical Diversity", "Networks, Connections, Ports", "IOS basics, Graphics, Swift", "Testing, OOP, UML", "Cognition, Usability and user experience, Stats"};
 
     public void run(ApplicationArguments args) throws Exception{
         students.save(new Student("Jakub", "Gajewski", "TheFlyingPolak", "pASSw0rd!", "0874206969", "jakub.gajewski@ucdconnect.ie", "Male", "Polish", 0, 254));
@@ -45,6 +51,38 @@ public class SampleDataLoader implements ApplicationRunner {
         for (int i = 0; i < NUMBER_OF_STAFF; i++){
             staff.save(generateRandomStaff());
         }
+        for (int i = 0; i < NUMBER_OF_MODULES; i++){
+            modules.save(new Module(MODULE_CODES[i],MODULE_NAMES[i],staff.findAll().get(i % NUMBER_OF_STAFF),MODULE_TOPICS[i],0,20));
+        }
+
+
+        for(Student student:students.findAll()){
+            List<Module> availableModules = modules.findAll();
+
+            for (Module module:availableModules) {
+                if(module.getNumberOfStudents() >= module.getMaxStudents()){
+                    availableModules.remove(module);
+                }
+            }
+
+            for(int i = 0; i < 3; i++){
+                Random random = new Random();
+                int x = random.nextInt(availableModules.size());
+                Module module = availableModules.get(x);
+                while(module.getNumberOfStudents() >= module.getMaxStudents()) {
+                    x = random.nextInt((NUMBER_OF_MODULES - 1) + 1) + 1;
+                    module = modules.findAll().get(x);
+                }
+
+                module.setNumberOfStudents(module.getNumberOfStudents()+1);
+                modules.save(module);
+                enrolment.save(new ModuleEnrolment(module,student));
+
+
+                availableModules.remove(module);
+            }
+        }
+
     }
 
     private Student generateRandomStudent(){
@@ -71,11 +109,11 @@ public class SampleDataLoader implements ApplicationRunner {
         String firstName;
         String gender;
         if (new Random().nextDouble() >= 0.5) {
-            firstName = getRandom(FIRST_NAMES_FEMALE);
+            firstName = getRandom(FIRST_NAMES_MALE);
             gender = "Male";
         }
         else {
-            firstName = getRandom(FIRST_NAMES_MALE);
+            firstName = getRandom(FIRST_NAMES_FEMALE);
             gender = "Female";
         }
         String lastName = getRandom(LAST_NAMES);

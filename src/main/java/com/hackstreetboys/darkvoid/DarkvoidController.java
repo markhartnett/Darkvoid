@@ -137,6 +137,7 @@ public class DarkvoidController {
     public ModuleEnrolment enrolStudent(@PathVariable(value = "studentId") Integer studentId, @PathVariable(value = "moduleId") String moduleId) throws ModuleNotFoundException, StudentNotFoundException {
         Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new ModuleNotFoundException(moduleId));
         module.setNumberOfStudents(module.getNumberOfStudents()+1);
+        moduleRepository.save(module);
 
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException(studentId));
 
