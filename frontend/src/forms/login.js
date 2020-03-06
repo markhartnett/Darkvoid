@@ -33,8 +33,8 @@ class Login extends React.Component {
         // TODO
         // If password is accurate, update loggedIn and staff cookies, return to home
 
-        alert("Username: " + s.username);
-        alert("Password: " + s.password);
+        console.log("Username: " + s.username);
+        console.log("Password: " + s.password);
         const url = String(s.username) + '/' + String(s.password);
         const studentId = await fetch('http://localhost:8080/login/student/' + url,
             {
@@ -44,8 +44,8 @@ class Login extends React.Component {
                     'Content-Type': 'application/json'
                 }
             }).then(response => response.json());
-
-        alert("Halfway");
+        console.log("Halfway");
+        console.log("Halfway");
 
         if (studentId !== -1) {
             const student = await fetch('http://localhost:8080/students/' + studentId,
@@ -64,7 +64,7 @@ class Login extends React.Component {
             alert("Name: " + student.name);
         }
 
-        alert("ID: " + studentId);
+        console.log("ID: " + studentId);
     };
 
 

@@ -26,7 +26,8 @@ class Home extends React.Component {
                     <Button onClick={function () {
                         ReactDOM.render(<Login/>, document.getElementById('root'));
                     }}>Login</Button>
-                </ButtonToolbar>
+                </ButtonToolbar><br/>
+                <img src="https://bridge.jo/wp-content/uploads/2016/12/aicum-8.jpg" alt="university" height="300" width="400"/>
             </div>
         );
     }
