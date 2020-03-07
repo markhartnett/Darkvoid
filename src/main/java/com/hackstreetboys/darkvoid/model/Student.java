@@ -1,4 +1,4 @@
-package com.hackstreetboys.darkvoid.data;
+package com.hackstreetboys.darkvoid.model;
 
 import lombok.Data;
 

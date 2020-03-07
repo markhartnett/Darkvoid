@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hackstreetboys.darkvoid.data.*;
-import com.hackstreetboys.darkvoid.data.Module;
-import com.hackstreetboys.darkvoid.database.*;
+import com.hackstreetboys.darkvoid.model.*;
+import com.hackstreetboys.darkvoid.model.Module;
+import com.hackstreetboys.darkvoid.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.*;
 import org.springframework.stereotype.Component;
