@@ -1,6 +1,6 @@
-package com.hackstreetboys.darkvoid.database;
+package com.hackstreetboys.darkvoid.repository;
 
-import com.hackstreetboys.darkvoid.data.Staff;
+import com.hackstreetboys.darkvoid.model.Staff;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,8 +1,9 @@
-package com.hackstreetboys.darkvoid;
+package com.hackstreetboys.darkvoid.controller;
 
-import com.hackstreetboys.darkvoid.data.*;
-import com.hackstreetboys.darkvoid.data.Module;
-import com.hackstreetboys.darkvoid.database.*;
+import com.hackstreetboys.darkvoid.DarkvoidApplication;
+import com.hackstreetboys.darkvoid.model.*;
+import com.hackstreetboys.darkvoid.model.Module;
+import com.hackstreetboys.darkvoid.repository.*;
 import com.hackstreetboys.darkvoid.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class DarkvoidController {
     private static final Logger log = LoggerFactory.getLogger(DarkvoidApplication.class);
@@ -138,6 +140,7 @@ public class DarkvoidController {
     public ModuleEnrolment enrolStudent(@PathVariable(value = "studentId") Integer studentId, @PathVariable(value = "moduleId") String moduleId) throws ModuleNotFoundException, StudentNotFoundException {
         Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new ModuleNotFoundException(moduleId));
         module.setNumberOfStudents(module.getNumberOfStudents()+1);
+        moduleRepository.save(module);
 
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException(studentId));
 
