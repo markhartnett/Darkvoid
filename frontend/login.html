@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <!--<script src="jquery-3.4.1.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<body>
+    <div id="login">
+        <h1>Login</h1>
+        <form id="loginForm">
+        <label>
+            Username:
+            <input type="text" id="username"/>
+        </label><br/>
+        <label>
+            Password:
+            <input type="text" id="password"/>
+        </label><br/>
+        <input type="submit"/>
+        </form>
+
+        <Button>Back</Button>
+        <script>
+            var number = -1;
+
+            $( "form" ).submit(function(event) {
+                const username = $("#username").val();
+                const password = $("#password").val();
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/login/student/' + username + '/' + password,
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function(result) {
+                        number = result;
+                    }
+                });
+                event.preventDefault();
+            });
+
+        </script>
+    </div>
+</body>
+</html>
