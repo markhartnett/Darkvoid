@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <!--<script src="jquery-3.4.1.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<body>
+<div id="signup">
+    <h1>Sign Up</h1>
+    <form id="signUpForm">
+        <label>
+            First Name:
+            <input type="text" id="firstName"/>
+        </label><br/>
+        <label>
+            Last Name:
+            <input type="text" id="lastName"/>
+        </label><br/>
+        <label>
+            Username:
+            <input type="text" id="username"/>
+        </label><br/>
+        <label>
+            Password:
+            <input type="text" id="password"/>
+        </label><br/>
+        <label>
+            Email:
+            <input type="text" id="email"/>
+        </label><br/>
+        <label>
+            Phone Number:
+            <input type="text" id="phoneNumber"/>
+        </label><br/>
+        <label>
+            Gender:
+            <select id="gender" name="gender">
+                <option value="">-- Select --</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <option value="preferNot">Prefer Not to Say</option>
+            </select>
+        </label><br/>
+        <label>
+            Nationality:
+            <input type="text" id="nationality"/>
+        </label><br/>
+        <input type="submit"/>
+    </form>
+
+    <Button>Back</Button>
+
+    <script>
+        $( "form" ).submit(function(event) {
+            const firstName = $("#firstName").val();
+            const lastName = $("#lastName").val();
+            const username = $("#username").val();
+            const password = $("#password").val();
+            const email = $("#email").val();
+            const phoneNumber = $("#phoneNumber").val();
+            const gender = $("#gender").val();
+            const nationality = $("#nationality").val();
+
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/students',
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify({
+                    "firstName": String(firstName),
+                    "lastName": String(lastName),
+                    "username": String(username),
+                    "password": String(password),
+                    "email": String(email),
+                    "phoneNumber": String(phoneNumber),
+                    "gender": String(gender),
+                    "nationality": String(nationality)
+                })
+            });
+            event.preventDefault();
+        });
+    </script>
+</div>
+</body>
+</html>
