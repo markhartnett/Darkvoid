@@ -35,7 +35,19 @@ var checkStaffLogin = function(username, password) {
 var getStudent = function(id) {
     return $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/student/' + id,
+        url: 'http://localhost:8080/students/' + id,
+        contentType: "application/json",
+        dataType: 'json',
+        success: function (result) {
+            return result;
+        }
+    })
+};
+
+var getStaff = function(id) {
+    return $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/staff/' + id,
         contentType: "application/json",
         dataType: 'json',
         success: function (result) {

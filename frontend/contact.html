@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="springfield.css">
+		<script type="text/javascript" src="contact.js"></script>
+		<title>Contact Us</title>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+		<ul>
+			<li><a href="home.html"><strong>SpringField</strong></a></li>
+			<li><a href="login.html">Log In</a></li>
+			<li><a href="signup.html">Register</a></li>
+			<li><a href="stats.html">School Stats</a></li>
+			<li style="float:right"><a href="contact.html">Contact Us</a></li>
+		</ul>
+
+		<div class="contact">
+  		<form onsubmit="contactSubmit();">
+
+    	First Name:<br>
+    	<input type="text" id="firstname" name="firstname" placeholder="Joe">
+
+    	Last Name:<br>
+    	<input type="text" id="lastname" name="lastname" placeholder="Bloggs">
+
+    	Email Address:<br>
+    	<input type="text" id="email" name="email" placeholder="joebloggs@gmail.com">
+
+	    Message:<br>
+	    <textarea id="message" name="message" placeholder="Write message here.." style="height:200px"></textarea>
+
+	    <input type="submit" value="Submit">
+
+  		</form>
+		</div>
+		<br>
+		<br>
+		<div class="footer" >
+			Springfield University<br>
+			<u>+353(1) 1234567</u>
+		</div>
+	</body>
+
+</html>

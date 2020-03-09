@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <!--<script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="springfield.css">
 </head>
 <body>
+    <ul>
+        <li><a href="home.html"><strong>SpringField</strong></a></li>
+        <li><a href="login.html">Log In</a></li>
+        <li><a href="signup.html">Register</a></li>
+        <li><a href="stats.html">School Stats</a></li>
+        <li style="float:right"><a href="contact.html">Contact Us</a></li>
+    </ul>
+
+    <br>
+    <br>
+    <br>
     <div id="login">
         <h1>Login</h1>
         <form id="loginForm">
@@ -25,38 +36,45 @@
         <script type="text/javascript" src="loginFunctions.js"></script>
         <script>
             $(document).ready(function() {
-                var number;
-                var isStaff = false;
+                var studentNum;
+                var staffNum;
                 var name = "";
 
                 $("form").submit(function (event) {
                     const username = $("#username").val();
                     const password = $("#password").val();
 
-                    $.when(checkStudentLogin(username, password)).done(function (n1, n2) {
-                        number = data;
+                    $.when(checkStudentLogin(username, password), checkStaffLogin(username, password)).done(function (n1, n2) {
+                        studentNum = n1[0];
+                        staffNum = n2[0];
+
+                        if (studentNum !== -1 && staffNum === -1) {
+                            $.when(getStudent(studentNum)).done(function (data) {
+                                name = data.firstName;
+
+                                document.cookie = "name=" + name + "; isStaff=0; path=/";
+                            });
+                        } else if (staffNum !== -1) {
+                            $.when(getStaff(studentNum)).done(function (data) {
+                                name = data.firstName;
+
+                                document.cookie = "name=" + name + "; isStaff=1; path=/";
+                            });
+                        } else {
+                            alert("Incorrect Login");
+                        }
                     });
 
-                    console.log("Queried Students. Returned: " + number);
-                    if (number === -1) {
-                        $.when(checkStaffLogin(username, password)).then(function (data, textStatus, jqXHR) {
-                            number = data;
-                            isStaff = (number !== -1);
-                        });
-                    }
-
-                    if (!isStaff) {
-                        $.when(getStudent(number)).then(function (data, textStatus, jqXHR) {
-                            name = data[0].firstName;
-                            console.log("Name: " + name);
-                        });
-                    }
-
-                    //document.cookie =
                     event.preventDefault();
                 });
             });
         </script>
     </div>
+
+    <div class="footer" >
+        Springfield University<br>
+        <u>+353(1) 1234567</u>
+    </div>
+
 </body>
 </html>
