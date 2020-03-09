@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="./lib/jquery-cookie.js"></script>
     <link rel="stylesheet" type="text/css" href="springfield.css">
 </head>
 <body>
@@ -34,6 +35,7 @@
 
         <Button>Back</Button>
         <script type="text/javascript" src="loginFunctions.js"></script>
+        <script type="text/javascript" src="common.js"></script>
         <script>
             $(document).ready(function() {
                 var studentNum;
@@ -51,19 +53,27 @@
                         if (studentNum !== -1 && staffNum === -1) {
                             $.when(getStudent(studentNum)).done(function (data) {
                                 name = data.firstName;
+                                console.log("Writing name: " + name);
 
-                                document.cookie = "name=" + name + "; isStaff=0; path=/";
+                                $.cookie('name', name, { expires: 1, path: '/' });
+                                console.log("Written name: " + $.cookie('name'));
+                                console.log("Nonexistant cookie: " + $.cookie('fake'));
+                                $.cookie('staff', 0, { expires: 1, path: '/' });
                             });
                         } else if (staffNum !== -1) {
                             $.when(getStaff(studentNum)).done(function (data) {
                                 name = data.firstName;
 
-                                document.cookie = "name=" + name + "; isStaff=1; path=/";
+                                $.cookie('name', name, { expires: 1, path: '/' });
+                                $.cookie('staff', 1, { expires: 1, path: '/' });
                             });
                         } else {
                             alert("Incorrect Login");
                         }
                     });
+                    $.cookie.json = true;
+
+                    console.log("Values: " + $.cookie());
 
                     event.preventDefault();
                 });
