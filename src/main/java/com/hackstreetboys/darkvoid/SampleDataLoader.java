@@ -33,7 +33,7 @@ public class SampleDataLoader implements ApplicationRunner {
     private final String[] PASSWORDS = {"123456", "123456789", "qwerty", "password", "1234567", "12345678", "12345",
             "1234567890", "11111111", "123123", "123321", "1q2w3e4r5t", "iloveyou", "1234", "666666", "654321", "555555",
             "gfhjkm", "abc123", "liverpool", "qwerty123", "qwertyuiop", "michael", "alenisachap", "computer", "admin",
-            "drop table students;-- -", "monkey", "elephant", "giraffe", "password1"};
+            "memes", "monkey", "elephant", "giraffe", "password1"};
     private final String[] NATIONALITIES = {"Irish", "Polish", "British", "French", "German", "Spanish", "Italian",
             "Indian", "Russian", "Ukrainian", "Chinese", "Serbian", "Croatian", "Bosnian", "Hungarian", "Romanian",
             "Austrian"};
