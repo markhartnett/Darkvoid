@@ -22,28 +22,40 @@
         </form>
 
         <Button>Back</Button>
+        <script type="text/javascript" src="loginFunctions.js"></script>
         <script>
-            var number = -1;
+            $(document).ready(function() {
+                var number;
+                var isStaff = false;
+                var name = "";
 
-            $( "form" ).submit(function(event) {
-                const username = $("#username").val();
-                const password = $("#password").val();
-                $.ajax({
-                    type: 'GET',
-                    url: 'http://localhost:8080/login/student/' + username + '/' + password,
-                    contentType: "application/json",
-                    dataType: 'json',
-                    success: function(result) {
-                        number = result;
+                $("form").submit(function (event) {
+                    const username = $("#username").val();
+                    const password = $("#password").val();
+
+                    $.when(checkStudentLogin(username, password)).done(function (n1, n2) {
+                        number = data;
+                    });
+
+                    console.log("Queried Students. Returned: " + number);
+                    if (number === -1) {
+                        $.when(checkStaffLogin(username, password)).then(function (data, textStatus, jqXHR) {
+                            number = data;
+                            isStaff = (number !== -1);
+                        });
                     }
+
+                    if (!isStaff) {
+                        $.when(getStudent(number)).then(function (data, textStatus, jqXHR) {
+                            name = data[0].firstName;
+                            console.log("Name: " + name);
+                        });
+                    }
+
+                    //document.cookie =
+                    event.preventDefault();
                 });
-                event.preventDefault();
             });
-
-            if (number != -1) {
-
-            }
-
         </script>
     </div>
 </body>
