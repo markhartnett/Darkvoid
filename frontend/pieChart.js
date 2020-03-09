@@ -1,47 +1,47 @@
-function drawPieChart(width, height, margin) {
+function drawPieChart(width, height, margin, div, data) {
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
     var radius = Math.min(width, height) / 2 - margin;
 
-    // append the svg object to the div called 'my_dataviz'
-    var svg = d3.select("#my_dataviz")
+    // append the svg object to the div
+    var svg = d3.select(div)
         .append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-    var mydata = {};
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/students',
-        contentType: "application/json",
-        dataType: 'json',
-        async: false,
-        success: function(data) {
-            $.each(data, function(key, value) {
-                console.log(value.firstName, value.nationality);
-                var national = value.nationality.toLowerCase()
-                if (national in mydata){
-                    mydata[national]++
-                }
-                else{
-                    mydata[national] = 1
-                }
-            });
-        }
-    });
-    console.log(mydata);
+    // var mydata = {};
+    // $.ajax({
+    //     type: 'GET',
+    //     url: 'http://localhost:8080/students',
+    //     contentType: "application/json",
+    //     dataType: 'json',
+    //     async: false,
+    //     success: function(data) {
+    //         $.each(data, function(key, value) {
+    //             console.log(value.firstName, value.nationality);
+    //             var national = value.nationality.toLowerCase();
+    //             if (national in mydata){
+    //                 mydata[national]++
+    //             }
+    //             else{
+    //                 mydata[national] = 1
+    //             }
+    //         });
+    //     }
+    // });
+    // console.log(mydata);
 
 
     // set the color scale
     var color = d3.scaleOrdinal()
-        .domain(mydata)
+        .domain(data)
         .range(d3.schemeSet2);
 
     // Compute the position of each group on the pie:
     var pie = d3.pie()
         .value(function(d) {return d.value; });
-    var data_ready = pie(d3.entries(mydata));
+    var data_ready = pie(d3.entries(data));
     // Now I know that group A goes from 0 degrees to x degrees and so on.
 
     // shape helper to build arcs:

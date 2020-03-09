@@ -7,9 +7,14 @@
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="pieChart.js"></script>
+    <script type="text/javascript" src="data.js"></script>
     <link rel="stylesheet" type="text/css" href="springfield.css">
 </head>
 <body>
+    <script>
+        students = getData('http://localhost:8080/students');
+        staff = getData('http://localhost:8080/staff');
+    </script>
     <ul>
         <li><a href="home.html"><strong>SpringField</strong></a></li>
         <li><a href="login.html">Log In</a></li>
@@ -22,11 +27,23 @@
     <br>
     <br>
     <h1 style="text-align: center">School Stats</h1>
-    <div id="my_dataviz">
-        <h2>Student Nationalities</h2>
-        <script>
-            drawPieChart(450, 450, 20)
-        </script>
+    <div style="width: 100%; margin: 0 auto; display: table-row">
+        <div style="width: 500px; display: table-cell; text-align: center">
+            <h2>Student Gender Distribution</h2>
+            <div id="student_gender">
+                <script>
+                    drawPieChart(450, 450, 20, "#student_gender", getGenders(students));
+                </script>
+            </div>
+        </div>
+        <div style="display: table-cell; text-align: center">
+            <h2>Staff Gender Distribution</h2>
+            <div id="staff_gender">
+                <script>
+                    drawPieChart(450, 450, 20, "#staff_gender", getGenders(staff))
+                </script>
+            </div>
+        </div>
     </div>
 
     <div class="footer" >
