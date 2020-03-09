@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SampleDataLoader implements ApplicationRunner {
-    private final int NUMBER_OF_STUDENTS = 100;
-    private final int NUMBER_OF_STAFF = 20;
+    private final int NUMBER_OF_STUDENTS = 30;
+    private final int NUMBER_OF_STAFF = 5;
     private final int NUMBER_OF_MODULES = 7;
     private final List<String> USERNAMES = new ArrayList<>();
     @Autowired private StudentRepository students;
