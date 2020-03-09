@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <!--<script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 <body>
@@ -25,34 +24,35 @@
         <script type="text/javascript" src="loginFunctions.js"></script>
         <script>
             $(document).ready(function() {
-                var number;
-                var isStaff = false;
+                var studentNum;
+                var staffNum;
                 var name = "";
 
                 $("form").submit(function (event) {
                     const username = $("#username").val();
                     const password = $("#password").val();
 
-                    $.when(checkStudentLogin(username, password)).done(function (n1, n2) {
-                        number = data;
+                    $.when(checkStudentLogin(username, password), checkStaffLogin(username, password)).done(function (n1, n2) {
+                        studentNum = n1[0];
+                        staffNum = n2[0];
+
+                        if (studentNum !== -1 && staffNum === -1) {
+                            $.when(getStudent(studentNum)).done(function (data) {
+                                name = data.firstName;
+
+                                document.cookie = "name=" + name + "; isStaff=0; path=/";
+                            });
+                        } else if (staffNum !== -1) {
+                            $.when(getStaff(studentNum)).done(function (data) {
+                                name = data.firstName;
+
+                                document.cookie = "name=" + name + "; isStaff=1; path=/";
+                            });
+                        } else {
+                            alert("Incorrect Login");
+                        }
                     });
 
-                    console.log("Queried Students. Returned: " + number);
-                    if (number === -1) {
-                        $.when(checkStaffLogin(username, password)).then(function (data, textStatus, jqXHR) {
-                            number = data;
-                            isStaff = (number !== -1);
-                        });
-                    }
-
-                    if (!isStaff) {
-                        $.when(getStudent(number)).then(function (data, textStatus, jqXHR) {
-                            name = data[0].firstName;
-                            console.log("Name: " + name);
-                        });
-                    }
-
-                    //document.cookie =
                     event.preventDefault();
                 });
             });
