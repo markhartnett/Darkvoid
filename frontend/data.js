@@ -69,3 +69,13 @@ function getGrades(data){
     }
     return grades
 }
+
+// Accepts list of students/staff
+// Returns array of usernames
+function getUsernames(data){
+    let usernames = [];
+    for (let i = 0; i < data.length; i++){
+        usernames[i]=data[i].username;
+    }
+    return usernames
+}

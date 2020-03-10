@@ -5,6 +5,7 @@
     <title>Sign Up</title>
     <!--<script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="data.js"></script>
     <link rel="stylesheet" type="text/css" href="springfield.css">
 </head>
 <body>
@@ -76,24 +77,48 @@
             const gender = $("#gender").val();
             const nationality = $("#nationality").val();
 
+            if (username === '' ||
+                firstName === '' ||
+                lastName === '' ||
+                phoneNumber === '' ||
+                password === '' ||
+                email === '' ||
+                gender === '' ||
+                nationality === ''
+            ){
+                alert("Please select a value for all options");
+            }
 
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost:8080/students',
-                contentType: "application/json",
-                dataType: 'json',
-                data: JSON.stringify({
-                    "firstName": String(firstName),
-                    "lastName": String(lastName),
-                    "username": String(username),
-                    "password": String(password),
-                    "email": String(email),
-                    "phoneNumber": String(phoneNumber),
-                    "gender": String(gender),
-                    "nationality": String(nationality)
-                })
-            });
-            event.preventDefault();
+            else{
+                students = getData('http://localhost:8080/students');
+                staff = getData('http://localhost:8080/staff');
+                usernames = getUsernames(students).concat(getUsernames(staff));
+
+                if (usernames.includes(String(username))) {
+                    alert("Username already taken please try again with different username");
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:8080/students',
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "firstName": String(firstName),
+                            "lastName": String(lastName),
+                            "username": String(username),
+                            "password": String(password),
+                            "email": String(email),
+                            "phoneNumber": String(phoneNumber),
+                            "gender": String(gender),
+                            "nationality": String(nationality)
+                        })
+                    });
+                    event.preventDefault();
+                    alert("Your account has been created.");
+                    window.location.href = "home.html"
+                }
+            }
         });
     </script>
 </div>
