@@ -33,7 +33,7 @@
         <input type="submit"/>
         </form>
 
-        <Button>Back</Button>
+        <Button id="back">Back</Button>
         <script type="text/javascript" src="loginFunctions.js"></script>
         <script type="text/javascript" src="common.js"></script>
         <script>
@@ -46,6 +46,11 @@
                     const username = $("#username").val();
                     const password = $("#password").val();
 
+                    if (username === 'null' || password === 'null') {
+                        alert("Please enter login details");
+                        return;
+                    }
+
                     $.when(checkStudentLogin(username, password), checkStaffLogin(username, password)).done(function (n1, n2) {
                         studentNum = n1[0];
                         staffNum = n2[0];
@@ -57,14 +62,18 @@
                                 $.cookie('name', name, { expires: 1, path: '/' });
                                 $.cookie('staff', 0, { expires: 1, path: '/' });
                                 $.cookie('id', studentNum, { expires: 1, path: '/' });
+
+                                window.location.href("http://localhost:63342/darkvoid/frontend/studentDashboard.html")
                             });
                         } else if (staffNum !== -1) {
-                            $.when(getStaff(studentNum)).done(function (data) {
+                            $.when(getStaff(staffNum)).done(function (data) {
                                 name = data.firstName;
 
                                 $.cookie('name', name, { expires: 1, path: '/' });
                                 $.cookie('staff', 1, { expires: 1, path: '/' });
                                 $.cookie('id', staffNum, { expires: 1, path: '/' });
+
+                                window.location.href("http://localhost:63342/darkvoid/frontend/studentDashboard.html")
                             });
                         } else {
                             alert("Incorrect Login");
@@ -72,6 +81,10 @@
                     });
 
                     event.preventDefault();
+                });
+
+                $("#back").click(function() {
+                    window.location.href = "http://localhost:63342/darkvoid/frontend/home.html";
                 });
             });
         </script>

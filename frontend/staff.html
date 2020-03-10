@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="./lib/jquery-cookie.js"></script>
+    <link rel="stylesheet" type="text/css" href="springfield.css">
+</head>
+<body>
+    <script>
+        let staff = null;
+        url = 'http://localhost:8080/staff/' + $.cookie('id');
+        $.ajax({
+            type: 'GET',
+            url: url,
+            contentType: "application/json",
+            dataType: 'json',
+            async: false,
+            success: function(d) {
+                staff = d;
+            }
+        });
+    </script>
+</body>
+</html>
