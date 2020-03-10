@@ -15,22 +15,26 @@
         <li><a href="stats.html">School Stats</a></li>
         <li style="float:right"><a href="contact.html">Contact Us</a></li>
     </ul>
-    <script>
-        let staff = null;
-        url = 'http://localhost:8080/staff/' + $.cookie('id');
-        $.ajax({
+    <br>
+    <br>
+    <br>
+    <h1 id="staff_name">Welcome, </h1>
+    <script type="text/javascript">
+        var username = $.cookie('name');
+        var id = $.cookie('id');
+        $('#staff_name').append(username);
+
+        var s = $.ajax({
             type: 'GET',
-            url: url,
+            url: 'http://localhost:8080/moduleEnrolments/' + id,
             contentType: "application/json",
             dataType: 'json',
-            async: false,
-            success: function(d) {
-                staff = d;
+            success: function (result) {
+                return result.responseJSON;
             }
         });
-        console.log(staff.firstName);
-        console.log(staff.lastName);
+
+        console.log(s);
     </script>
-    <h1>Welcome</h1>
 </body>
 </html>
