@@ -20,11 +20,14 @@
         <br>
         <h1 id="welcome">Welcome, </h1>
 
-        <div id="modules">
+        <button id="viewModules">View Available Modules</button>
 
-        </div>
+        <table id="modules">
+        </table>
+
 
         <script type="text/javascript">
+<<<<<<< HEAD
             var username = $.cookie('name');
             var id = $.cookie('id');
             $('#welcome').append(username);
@@ -40,6 +43,57 @@
             });
 
             console.log(s);
+=======
+            var getModules = function(id) {
+                return $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/moduleEnrolments/' + id,
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function (result) {
+                        return result;
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                var username = $.cookie('name');
+                var id = $.cookie('id');
+                $('#welcome').append(username);
+                var moduleData;
+
+
+
+                $.when(getModules(id)).done(function (data) {
+                    moduleData = data;
+                    var moduleTable = document.getElementById("modules");
+
+                    for (var i = 0; i < moduleData.length; i++) {
+                        var cell = document.createElement("td");
+                        var cellText = document.createTextNode(moduleData[i][0])
+                        cell.appendChild(cellText);
+
+                        var cell2 = document.createElement("td");
+                        cellText = document.createTextNode(moduleData[i][1]);
+                        cell2.appendChild(cellText);
+
+                        var button = document.createElement("button");
+                        button.innerText = "Drop";
+                        button.id = "dropButton" + i;
+
+                        var row = document.createElement("tr");
+                        row.appendChild(cell);
+                        row.appendChild(cell2);
+                        row.appendChild(button);
+                        moduleTable.appendChild(row);
+                    }
+                });
+
+                $('#viewModules').click(function () {
+                    //window.location.href = "http://localhost:63342/darkvoid/frontend/home.html";
+                });
+            });
+>>>>>>> 1ef460f7a8b2d29349f1ead8ee497265afa510bd
         </script>
     </body>
 </html>

@@ -5,6 +5,7 @@
     <title>Staff Dashboard</title>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="./lib/jquery-cookie.js"></script>
+    <script type="text/javascript" src="data.js"></script>
     <link rel="stylesheet" type="text/css" href="springfield.css">
 </head>
 <body>
@@ -24,17 +25,21 @@
         var id = $.cookie('id');
         $('#staff_name').append(username);
 
-        var s = $.ajax({
-            type: 'GET',
-            url: 'http://localhost:8080/moduleEnrolments/' + id,
-            contentType: "application/json",
-            dataType: 'json',
-            success: function (result) {
-                return result.responseJSON;
+        var staff = getSingleData('http://localhost:8080/staff/' + id);
+        var modules = getData('http://localhost:8080/modules');
+        var myModules = [];
+        for (let i = 0; i < modules.length; i++){
+            var s = modules[i].coordinator;
+            if (s.staffId === staff.id){
+                myModules.push(modules[i]);
             }
-        });
-
-        console.log(s);
+        }
+        console.log(staff);
+        console.log(modules);
+        console.log(myModules);
     </script>
+
+    <h2>Your modules</h2>
+
 </body>
 </html>
