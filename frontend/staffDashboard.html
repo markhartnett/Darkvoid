@@ -40,6 +40,32 @@
     </script>
 
     <h2>Your modules</h2>
+    <table id="modules">
+    </table>
 
+    <script>
+        moduleData = myModules;
+        var moduleTable = document.getElementById("modules");
+
+        for (var i = 0; i < moduleData.length; i++) {
+            var cell = document.createElement("td");
+            var cellText = document.createTextNode(moduleData[i][0]);
+            cell.appendChild(document.createTextNode(moduleData[i].moduleId));
+
+            var cell2 = document.createElement("td");
+            cellText = document.createTextNode(moduleData[i][1]);
+            cell2.appendChild(document.createTextNode(moduleData[i].moduleName));
+
+            var button = document.createElement("button");
+            button.innerText = "Edit info";
+            button.id = "dropButton" + i;
+
+            var row = document.createElement("tr");
+            row.appendChild(cell);
+            row.appendChild(cell2);
+            row.appendChild(button);
+            moduleTable.appendChild(row);
+        }
+    </script>
 </body>
 </html>
