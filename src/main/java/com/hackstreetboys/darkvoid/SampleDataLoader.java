@@ -41,6 +41,7 @@ public class SampleDataLoader implements ApplicationRunner {
     private final String[] MODULE_NAMES = {"Secure Software Engineering","Deep Learning","Human Language Technologies",
             "Advances in Wireless Networking","Mobile App Dev - Cocoa Touch","Contemporary Software Development","Human Computer Interaction"};
     private final String[] MODULE_TOPICS = {"Spring, SQL, SQL Injections","Forward Prop, Back Prop, Classification", "Natural Language Processing, Parse Trees, Lexical Diversity", "Networks, Connections, Ports", "IOS basics, Graphics, Swift", "Testing, OOP, UML", "Cognition, Usability and user experience, Stats"};
+    private final String[] GRADES = {"A+","A","A-","B+","A","A-","B+","B","B-","C+","C","C-","B","B-","C+","C","C-","B","B-","C+","C","C-","B","B-","C+","C","C-","D+","D","D-","D+","D","D-","E","F"};
 
     public void run(ApplicationArguments args) throws Exception{
         students.save(new Student("Jakub", "Gajewski", "TheFlyingPolak", "pASSw0rd!", "0874206969", "jakub.gajewski@ucdconnect.ie", "Male", "Polish", 0, 254));
@@ -76,7 +77,9 @@ public class SampleDataLoader implements ApplicationRunner {
 
                 module.setNumberOfStudents(module.getNumberOfStudents()+1);
                 modules.save(module);
-                enrolment.save(new ModuleEnrolment(module,student));
+                ModuleEnrolment moduleEnrolment = new ModuleEnrolment(module,student);
+                moduleEnrolment.setGrade(getRandom(GRADES));
+                enrolment.save(moduleEnrolment);
 
 
                 availableModules.remove(module);
