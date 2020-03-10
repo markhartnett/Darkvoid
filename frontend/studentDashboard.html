@@ -15,6 +15,7 @@
         <table id="modules">
         </table>
 
+        <button id="dropout">Drop Out</button>
 
         <script type="text/javascript">
             var getModules = function(id) {
@@ -27,7 +28,7 @@
                         return result;
                     }
                 });
-            }
+            };
 
             $(document).ready(function() {
                 var username = $.cookie('name');
@@ -62,8 +63,66 @@
                     }
                 });
 
-                $('#viewModules').click(function () {
+                $('#dropButton0').click(function() {
+                    console.log("0");
+                    var moduleCode = moduleData[0][0]
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:8080/cancelEnrolment/' + id + '/' + moduleCode,
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (result) {
+                            return result;
+                        }
+                    });
+                });
+
+                $("#dropButton1").click(function() {
+                    console.log("1");
+                    var moduleCode = moduleData[1][0]
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:8080/cancelEnrolment/' + id + '/' + moduleCode,
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (result) {
+                            return result;
+                        }
+                    });
+                });
+
+                $("#dropButton2").click(function() {
+                    console.log("2");
+                    var moduleCode = moduleData[2][0]
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:8080/cancelEnrolment/' + id + '/' + moduleCode,
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (result) {
+                            return result;
+                        }
+                    });
+                });
+
+
+                $("#viewModules").click(function () {
                     //window.location.href = "http://localhost:63342/darkvoid/frontend/home.html";
+                });
+
+                $("#dropout").click(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:8080/studentDropout/' + id,
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (result) {
+                            return result;
+                        }
+                    });
                 });
             });
         </script>
