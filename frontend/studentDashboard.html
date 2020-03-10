@@ -90,8 +90,7 @@
                     }
                 });
 
-                $('#dropButton0').click(function() {
-                    console.log("0");
+                $(document).on("click", "#dropButton0", function() {
                     var moduleCode = moduleData[0][0]
 
                     $.ajax({
@@ -105,8 +104,7 @@
                     });
                 });
 
-                $("#dropButton1").click(function() {
-                    console.log("1");
+                $(document).on("click", "#dropButton1", function() {
                     var moduleCode = moduleData[1][0]
 
                     $.ajax({
@@ -120,8 +118,7 @@
                     });
                 });
 
-                $("#dropButton2").click(function() {
-                    console.log("2");
+                $(document).on("click", "#dropButton2", function() {
                     var moduleCode = moduleData[2][0]
 
                     $.ajax({
@@ -134,7 +131,6 @@
                         }
                     });
                 });
-
 
                 $("#viewModules").click(function () {
                     window.location.href = "http://localhost:63342/darkvoid/frontend/availableModules.html";
