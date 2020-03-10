@@ -16,6 +16,7 @@ function getData(url){
     return data;
 }
 
+// Accepts list of students/staff
 // Returns dictionary
 // key: nationality
 // value: int
@@ -33,6 +34,7 @@ function getNationalities(data){
     return nationalities
 }
 
+// Accepts list of students/staff
 // Returns dictionary
 // key: gender
 // value: int
@@ -48,4 +50,22 @@ function getGenders(data){
         }
     }
     return genders
+}
+
+// Accepts list of module enrolments
+// Returns dictionary
+// key: grade
+// value: int
+function getGrades(data){
+    let grades = {};
+    for (let i = 0; i < data.length; i++){
+        let g = data[i].grade.toLowerCase();
+        if (g in grades){
+            grades[g]++
+        }
+        else{
+            grades[g] = 1
+        }
+    }
+    return grades
 }

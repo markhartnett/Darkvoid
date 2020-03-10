@@ -14,6 +14,7 @@
     <script>
         students = getData('http://localhost:8080/students');
         staff = getData('http://localhost:8080/staff');
+        modules = getData('http://localhost:8080/moduleEnrolment');
     </script>
     <ul>
         <li><a href="home.html"><strong>SpringField</strong></a></li>
@@ -27,6 +28,7 @@
     <br>
     <br>
     <h1 style="text-align: center">School Stats</h1>
+    <!-- Gender statistics -->
     <div style="width: 100%; margin: 0 auto; display: table-row">
         <div style="width: 500px; display: table-cell; text-align: center">
             <h2>Student Gender Distribution</h2>
@@ -41,6 +43,38 @@
             <div id="staff_gender">
                 <script>
                     drawPieChart(450, 450, 20, "#staff_gender", getGenders(staff))
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nationality statistics -->
+    <div style="width: 100%; margin: 0 auto; display: table-row">
+        <div style="width: 500px; display: table-cell; text-align: center">
+            <h2>Student Nationality Distribution</h2>
+            <div id="student_nat">
+                <script>
+                    drawPieChart(450, 450, 20, "#student_nat", getNationalities(students));
+                </script>
+            </div>
+        </div>
+        <div style="display: table-cell; text-align: center">
+            <h2>Staff Nationality Distribution</h2>
+            <div id="staff_nat">
+                <script>
+                    drawPieChart(450, 450, 20, "#staff_nat", getNationalities(staff))
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grades statistics -->
+    <div style="width: 100%; margin: 0 auto; display: table-row">
+        <div style="width: 500px; display: table-cell; text-align: center">
+            <h2>Student Grades Distribution</h2>
+            <div id="grades">
+                <script>
+                    drawPieChart(450, 450, 20, "#grades", getGrades(modules));
                 </script>
             </div>
         </div>

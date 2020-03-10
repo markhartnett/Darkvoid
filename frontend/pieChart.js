@@ -10,29 +10,6 @@ function drawPieChart(width, height, margin, div, data) {
         .append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-    // var mydata = {};
-    // $.ajax({
-    //     type: 'GET',
-    //     url: 'http://localhost:8080/students',
-    //     contentType: "application/json",
-    //     dataType: 'json',
-    //     async: false,
-    //     success: function(data) {
-    //         $.each(data, function(key, value) {
-    //             console.log(value.firstName, value.nationality);
-    //             var national = value.nationality.toLowerCase();
-    //             if (national in mydata){
-    //                 mydata[national]++
-    //             }
-    //             else{
-    //                 mydata[national] = 1
-    //             }
-    //         });
-    //     }
-    // });
-    // console.log(mydata);
-
-
     // set the color scale
     var color = d3.scaleOrdinal()
         .domain(data)
