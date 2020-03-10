@@ -57,9 +57,11 @@
                                 $.cookie('name', name, { expires: 1, path: '/' });
                                 $.cookie('staff', 0, { expires: 1, path: '/' });
                                 $.cookie('id', studentNum, { expires: 1, path: '/' });
+
+                                //window.location.href("http://localhost:63342/darkvoid/frontend/studentDashboard.html")
                             });
                         } else if (staffNum !== -1) {
-                            $.when(getStaff(studentNum)).done(function (data) {
+                            $.when(getStaff(staffNum)).done(function (data) {
                                 name = data.firstName;
 
                                 $.cookie('name', name, { expires: 1, path: '/' });
