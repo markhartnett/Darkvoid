@@ -63,7 +63,7 @@
                                 $.cookie('staff', 0, { expires: 1, path: '/' });
                                 $.cookie('id', studentNum, { expires: 1, path: '/' });
 
-                                window.location.href("http://localhost:63342/darkvoid/frontend/studentDashboard.html")
+                                window.location.href = "http://localhost:63342/darkvoid/frontend/studentDashboard.html";
                             });
                         } else if (staffNum !== -1) {
                             $.when(getStaff(staffNum)).done(function (data) {
@@ -73,7 +73,7 @@
                                 $.cookie('staff', 1, { expires: 1, path: '/' });
                                 $.cookie('id', staffNum, { expires: 1, path: '/' });
 
-                                window.location.href("http://localhost:63342/darkvoid/frontend/studentDashboard.html")
+                                window.location.href = "http://localhost:63342/darkvoid/frontend/studentDashboard.html";
                             });
                         } else {
                             alert("Incorrect Login");
