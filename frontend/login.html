@@ -53,7 +53,6 @@
                         if (studentNum !== -1 && staffNum === -1) {
                             $.when(getStudent(studentNum)).done(function (data) {
                                 name = data.firstName;
-                                console.log("Writing name: " + name);
 
                                 $.cookie('name', name, { expires: 1, path: '/' });
                                 $.cookie('staff', 0, { expires: 1, path: '/' });
