@@ -89,7 +89,7 @@
                 });
 
                 $(document).on("click", "#dropButton0", function() {
-                    var moduleCode = moduleData[0][0]
+                    var moduleCode = moduleData[0][0];
 
                     $.ajax({
                         type: 'POST',
@@ -103,7 +103,7 @@
                 });
 
                 $(document).on("click", "#dropButton1", function() {
-                    var moduleCode = moduleData[1][0]
+                    var moduleCode = moduleData[1][0];
 
                     $.ajax({
                         type: 'POST',
@@ -117,7 +117,7 @@
                 });
 
                 $(document).on("click", "#dropButton2", function() {
-                    var moduleCode = moduleData[2][0]
+                    var moduleCode = moduleData[2][0];
 
                     $.ajax({
                         type: 'POST',
@@ -144,6 +144,8 @@
                             return result;
                         }
                     });
+
+                    window.location.href = "http://localhost:63342/darkvoid/frontend/home.html";
                 });
             });
         </script>
