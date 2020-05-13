@@ -55,6 +55,11 @@
                         studentNum = n1[0];
                         staffNum = n2[0];
 
+                        /**
+                         *  Performs the relevant checks and creates cookies to represent the session
+                         *
+                         *  The session will expire, with the cookies, 24 hours after login
+                         */
                         if (studentNum !== -1 && staffNum === -1) {
                             $.when(getStudent(studentNum)).done(function (data) {
                                 name = data.firstName;
