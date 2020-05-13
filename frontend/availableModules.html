@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="./lib/jquery-cookie.js"></script>
+    <link rel="stylesheet" type="text/css" href="springfield.css">
+</head>
+<body>
+
+<div id="modules"></div>
+
+<script>
+    $(document).ready(function() {
+        var username = $.cookie('name');
+        var id = $.cookie('id');
+
+        var div1 = document.getElementById('modules');
+
+        // creates a <table> element
+        var tbl = document.createElement("table");
+
+        var headers = document.createElement("tr");
+        var cell = document.createElement("td");
+
+        cell.appendChild("Module Code");
+        headers.appendChild(cell);
+        cell.appendChild("Module Name");
+        headers.appendChild(cell);
+        cell.appendChild("Description");
+        headers.appendChild(cell);
+        cell.appendChild("Register");
+        headers.appendChild(cell);
+
+        tbl.appendChild(headers);
+
+        modules = getData('http://localhost:8080/moduleEnrolment');
+        // creating rows
+        for (var r = 0; r < modules.length; r++) {
+            var row = document.createElement("tr");
+
+
+            cell.appendChild(modules[c].moduleId);
+            row.appendChild(cell);
+
+            cell.appendChild(modules[c].moduleName);
+            row.appendChild(cell);
+
+            cell.appendChild(modules[c].topics);
+            row.appendChild(cell);
+
+            var button = document.createElement("button");
+            button.innerText = "Enrol";
+            button.id = "enrol" + r;
+            cell.appendChild(button);
+            row.appendChild(cell);
+
+            tbl.appendChild(row); // add the row to the end of the table body
+        }
+        div1.appendChild(tbl);
+
+        $(document).on("click", "#enrol0", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/enrol/' + id + '/' + modules[0].moduleId,
+                contentType: "application/json",
+                dataType: 'json',
+                success: function (result) {
+                    return result;
+                }
+            });
+        });
+
+        $(document).on("click", "#enrol1", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/enrol/' + id + '/' + modules[1].moduleId,
+                contentType: "application/json",
+                dataType: 'json',
+                success: function (result) {
+                    return result;
+                }
+            });
+        });
+
+        $(document).on("click", "#enrol2", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/enrol/' + id + '/' + modules[2].moduleId,
+                contentType: "application/json",
+                dataType: 'json',
+                success: function (result) {
+                    return result;
+                }
+            });
+        });
+
+        $(document).on("click", "#enrol3", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/enrol/' + id + '/' + modules[3].moduleId,
+                contentType: "application/json",
+                dataType: 'json',
+                success: function (result) {
+                    return result;
+                }
+            });
+        });
+
+        $(document).on("click", "#enrol4", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/enrol/' + id + '/' + modules[4].moduleId,
+                contentType: "application/json",
+                dataType: 'json',
+                success: function (result) {
+                    return result;
+                }
+            });
+        });
+
+        $(document).on("click", "#enrol5", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/enrol/' + id + '/' + modules[5].moduleId,
+                contentType: "application/json",
+                dataType: 'json',
+                success: function (result) {
+                    return result;
+                }
+            });
+        });
+
+        $(document).on("click", "#enrol6", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/enrol/' + id + '/' + modules[6].moduleId,
+                contentType: "application/json",
+                dataType: 'json',
+                success: function (result) {
+                    return result;
+                }
+            });
+        });
+    })
+
+</script>
+
+</body>
+</html>
