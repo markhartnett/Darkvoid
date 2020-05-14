@@ -16,6 +16,21 @@ function getData(url){
     return data;
 }
 
+function getSingleData(url){
+    let data = null;
+    $.ajax({
+        type: 'GET',
+        url: url,
+        contentType: "application/json",
+        dataType: 'json',
+        async: false,
+        success: function(d) {
+            data = d;
+        }
+    });
+    return data;
+}
+
 // Accepts list of students/staff
 // Returns dictionary
 // key: nationality
@@ -68,4 +83,14 @@ function getGrades(data){
         }
     }
     return grades
+}
+
+// Accepts list of students/staff
+// Returns array of usernames
+function getUsernames(data){
+    let usernames = [];
+    for (let i = 0; i < data.length; i++){
+        usernames[i]=data[i].username;
+    }
+    return usernames
 }

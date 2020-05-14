@@ -89,8 +89,7 @@ public class DarkvoidController {
     // POST mappings
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/students")
-    public Student createStudent(@Valid @RequestBody Student student){
-        return studentRepository.save(student);
+    public Student createStudent(@Valid @RequestBody Student student){ return studentRepository.save(student);
     }
 
     @CrossOrigin(origins = "http://localhost:63342")

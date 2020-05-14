@@ -5,6 +5,7 @@
     <title>Sign Up</title>
     <!--<script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="data.js"></script>
     <link rel="stylesheet" type="text/css" href="springfield.css">
 </head>
 <body>
@@ -20,7 +21,13 @@
 <br>
 <br>
 <div id="signup">
-    <h1>Sign Up</h1>
+    <h1>Sign Up</h1>A password must contain:
+    <ul>
+        <li>At least 8 characters</li>
+        <li>A mixture of lower and upper case letters</li>
+        <li>At least one number</li>
+        <li>At least one of these characters: ! @ # $ ? €</li>
+    </ul>
     <form id="signUpForm">
         <label>
             First Name:
@@ -67,7 +74,7 @@
 
     <script>
         $( "form" ).submit(function(event) {
-            const firstName = $("#firstName").val();
+            var firstName = $("#firstName").val();
             const lastName = $("#lastName").val();
             const username = $("#username").val();
             const password = $("#password").val();
@@ -76,24 +83,59 @@
             const gender = $("#gender").val();
             const nationality = $("#nationality").val();
 
+            firstName = firstName.replace(/[<\/">'"]/g, "");
 
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost:8080/students',
-                contentType: "application/json",
-                dataType: 'json',
-                data: JSON.stringify({
-                    "firstName": String(firstName),
-                    "lastName": String(lastName),
-                    "username": String(username),
-                    "password": String(password),
-                    "email": String(email),
-                    "phoneNumber": String(phoneNumber),
-                    "gender": String(gender),
-                    "nationality": String(nationality)
-                })
-            });
-            event.preventDefault();
+            if (username === '' ||
+                firstName === '' ||
+                lastName === '' ||
+                phoneNumber === '' ||
+                password === '' ||
+                email === '' ||
+                gender === '' ||
+                nationality === ''
+            ){
+                alert("Please select a value for all options");
+            }
+
+            else if (password.length < 8 ||
+                !password.match("[a-z]") ||
+                !password.match("[A-Z]") ||
+                !password.match("[0-9]") ||
+                !password.match("[!@#$\?€]")
+            ){
+                alert("Your password is too weak. Please choose a different password.");
+            }
+
+            else{
+                students = getData('http://localhost:8080/students');
+                staff = getData('http://localhost:8080/staff');
+                usernames = getUsernames(students).concat(getUsernames(staff));
+
+                if (usernames.includes(String(username))) {
+                    alert("Username already taken please try again with different username");
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:8080/students',
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "firstName": String(firstName),
+                            "lastName": String(lastName),
+                            "username": String(username),
+                            "password": String(password),
+                            "email": String(email),
+                            "phoneNumber": String(phoneNumber),
+                            "gender": String(gender),
+                            "nationality": String(nationality)
+                        })
+                    });
+                    event.preventDefault();
+                    alert("Your account has been created.");
+                    window.location.href = "home.html"
+                }
+            }
         });
     </script>
 </div>

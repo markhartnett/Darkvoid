@@ -5,6 +5,7 @@
     <title>Staff Dashboard</title>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="./lib/jquery-cookie.js"></script>
+    <script type="text/javascript" src="data.js"></script>
     <link rel="stylesheet" type="text/css" href="springfield.css">
 </head>
 <body>
@@ -15,22 +16,56 @@
         <li><a href="stats.html">School Stats</a></li>
         <li style="float:right"><a href="contact.html">Contact Us</a></li>
     </ul>
-    <script>
-        let staff = null;
-        url = 'http://localhost:8080/staff/' + $.cookie('id');
-        $.ajax({
-            type: 'GET',
-            url: url,
-            contentType: "application/json",
-            dataType: 'json',
-            async: false,
-            success: function(d) {
-                staff = d;
+    <br>
+    <br>
+    <br>
+    <h1 id="staff_name">Welcome, </h1>
+    <script type="text/javascript">
+        var username = $.cookie('name');
+        var id = $.cookie('id');
+        $('#staff_name').append(username);
+
+        var staff = getSingleData('http://localhost:8080/staff/' + id);
+        var modules = getData('http://localhost:8080/modules');
+        var myModules = [];
+        for (let i = 0; i < modules.length; i++){
+            var s = modules[i].coordinator;
+            if (s.staffId === staff.id){
+                myModules.push(modules[i]);
             }
-        });
-        console.log(staff.firstName);
-        console.log(staff.lastName);
+        }
+        console.log(staff);
+        console.log(modules);
+        console.log(myModules);
     </script>
-    <h1>Welcome</h1>
+
+    <h2>Your modules</h2>
+    <table id="modules">
+    </table>
+
+    <script>
+        moduleData = myModules;
+        var moduleTable = document.getElementById("modules");
+
+        for (var i = 0; i < moduleData.length; i++) {
+            var cell = document.createElement("td");
+            var cellText = document.createTextNode(moduleData[i][0]);
+            cell.appendChild(document.createTextNode(moduleData[i].moduleId));
+
+            var cell2 = document.createElement("td");
+            cellText = document.createTextNode(moduleData[i][1]);
+            cell2.appendChild(document.createTextNode(moduleData[i].moduleName));
+
+            var button = document.createElement("button");
+            button.innerText = "Edit info";
+            button.id = "dropButton" + i;
+
+            var row = document.createElement("tr");
+            row.appendChild(cell);
+            row.appendChild(cell2);
+            row.appendChild(button);
+            moduleTable.appendChild(row);
+        }
+    </script>
 </body>
 </html>
