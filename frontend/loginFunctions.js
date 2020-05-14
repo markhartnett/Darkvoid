@@ -6,7 +6,8 @@ var checkStudentLogin = function(username, password) {
 
     return $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/login/student/' + username + '/' + password,
+        url: 'http://localhost:8080/login/student',
+        data: JSON.stringify({username:String(username), password:String(password)}),
         contentType: "application/json",
         dataType: 'json',
         success: function (result) {
@@ -22,8 +23,9 @@ var checkStaffLogin = function(username, password) {
     }
 
     return $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/login/staff/' + username + '/' + password,
+        type: 'POST',
+        url: 'http://localhost:8080/login/staff',
+        data: JSON.stringify({username:String(username), password:String(password)}),
         contentType: "application/json",
         dataType: 'json',
         success: function (result) {
@@ -34,7 +36,7 @@ var checkStaffLogin = function(username, password) {
 
 var getStudent = function(id) {
     return $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: 'http://localhost:8080/students/' + id,
         contentType: "application/json",
         dataType: 'json',

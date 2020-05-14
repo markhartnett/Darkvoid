@@ -1,6 +1,7 @@
 package com.hackstreetboys.darkvoid.controller;
 
 import com.hackstreetboys.darkvoid.DarkvoidApplication;
+import com.hackstreetboys.darkvoid.POJO.LoginEntity;
 import com.hackstreetboys.darkvoid.model.*;
 import com.hackstreetboys.darkvoid.model.Module;
 import com.hackstreetboys.darkvoid.repository.*;
@@ -84,31 +85,6 @@ public class DarkvoidController {
         return modulesAndGrades;
     }
 
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/login/student/{username}/{password}")
-    public int checkLoginStudent(@PathVariable(value = "username") String username, @PathVariable(value = "password") String password){
-        for (Student student:getAllStudents()) {
-            if(student.getUsername().equals(username) && student.getPassword().equals(password)){
-                log.info(student.toString());
-                return student.getID();
-            }
-        }
-        log.info("failed");
-        return -1;
-    }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/login/staff/{username}/{password}")
-    public int checkLoginStaff(@PathVariable(value = "username") String username, @PathVariable(value = "password") String password){
-        for (Staff staff:getAllStaff()) {
-            if(staff.getUsername().equals(username) && staff.getPassword().equals(password)){
-                return staff.getID();
-            }
-        }
-        log.info("failed");
-        return -1;
-    }
-
     // ===============================================================
     // POST mappings
     @CrossOrigin(origins = "http://localhost:63342")
@@ -133,6 +109,35 @@ public class DarkvoidController {
     @PostMapping("/moduleEnrolment")
     public ModuleEnrolment createModuleEnrolment(@Valid @RequestBody ModuleEnrolment moduleEnrolment){
         return moduleEnrolmentRepository.save(moduleEnrolment);
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PostMapping("/login/student")
+    public int checkLoginStudent(@RequestBody LoginEntity requestBody){
+        String username = requestBody.getUsername();
+        String password = requestBody.getPassword();
+        for (Student student:getAllStudents()) {
+            if(student.getUsername().equals(username) && student.getPassword().equals(password)){
+                log.info(student.toString());
+                return student.getID();
+            }
+        }
+        log.info("failed");
+        return -1;
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PostMapping("/login/staff")
+    public int checkLoginStaff(@RequestBody LoginEntity requestBody){
+        String username = requestBody.getUsername();
+        String password = requestBody.getPassword();
+        for (Staff staff:getAllStaff()) {
+            if(staff.getUsername().equals(username) && staff.getPassword().equals(password)){
+                return staff.getID();
+            }
+        }
+        log.info("Login details were not of that of a staff member");
+        return -1;
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
