@@ -74,7 +74,7 @@
 
     <script>
         $( "form" ).submit(function(event) {
-            const firstName = $("#firstName").val();
+            var firstName = $("#firstName").val();
             const lastName = $("#lastName").val();
             const username = $("#username").val();
             const password = $("#password").val();
@@ -82,6 +82,8 @@
             const phoneNumber = $("#phoneNumber").val();
             const gender = $("#gender").val();
             const nationality = $("#nationality").val();
+
+            firstName = firstName.replace(/[<\/">'"]/g, "");
 
             if (username === '' ||
                 firstName === '' ||
