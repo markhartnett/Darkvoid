@@ -30,6 +30,7 @@
         <script type="text/javascript">
             var username = $.cookie('name');
             var id = $.cookie('id');
+            username = username.replace(/[<\/">'"]/g, "");
             $('#welcome').append(username);
 
             var s = $.ajax({
