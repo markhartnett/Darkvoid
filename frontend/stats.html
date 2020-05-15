@@ -11,11 +11,6 @@
     <link rel="stylesheet" type="text/css" href="springfield.css">
 </head>
 <body>
-    <script>
-        students = getData('http://localhost:8080/students');
-        staff = getData('http://localhost:8080/staff');
-        modules = getData('http://localhost:8080/moduleEnrolment');
-    </script>
     <ul>
         <li><a href="home.html"><strong>SpringField</strong></a></li>
         <li><a href="login.html">Log In</a></li>
@@ -34,7 +29,7 @@
             <h2>Student Gender Distribution</h2>
             <div id="student_gender">
                 <script>
-                    drawPieChart(450, 450, 20, "#student_gender", getGenders(students));
+                    drawPieChart(450, 450, 20, "#student_gender", getGenders('http://localhost:8080/students/genders'));
                 </script>
             </div>
         </div>
@@ -42,7 +37,7 @@
             <h2>Staff Gender Distribution</h2>
             <div id="staff_gender">
                 <script>
-                    drawPieChart(450, 450, 20, "#staff_gender", getGenders(staff))
+                    drawPieChart(450, 450, 20, "#staff_gender", getGenders('http://localhost:8080/staff/genders'))
                 </script>
             </div>
         </div>
@@ -54,7 +49,7 @@
             <h2>Student Nationality Distribution</h2>
             <div id="student_nat">
                 <script>
-                    drawPieChart(450, 450, 20, "#student_nat", getNationalities(students));
+                    drawPieChart(450, 450, 20, "#student_nat", getNationalities('http://localhost:8080/students/nationalities'));
                 </script>
             </div>
         </div>
@@ -62,7 +57,7 @@
             <h2>Staff Nationality Distribution</h2>
             <div id="staff_nat">
                 <script>
-                    drawPieChart(450, 450, 20, "#staff_nat", getNationalities(staff))
+                    drawPieChart(450, 450, 20, "#staff_nat", getNationalities('http://localhost:8080/staff/nationalities'))
                 </script>
             </div>
         </div>
@@ -74,7 +69,7 @@
             <h2>Student Grades Distribution</h2>
             <div id="grades">
                 <script>
-                    drawPieChart(450, 450, 20, "#grades", getGrades(modules));
+                    drawPieChart(450, 450, 20, "#grades", getGrades('http://localhost:8080/students/grades'));
                 </script>
             </div>
         </div>

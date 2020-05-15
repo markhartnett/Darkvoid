@@ -35,10 +35,11 @@ function getSingleData(url){
 // Returns dictionary
 // key: nationality
 // value: int
-function getNationalities(data){
+function getNationalities(url){
+    data = getData(url)
     let nationalities = {};
     for (let i = 0; i < data.length; i++){
-        let national = data[i].nationality.toLowerCase();
+        let national = data[i].toLowerCase();
         if (national in nationalities){
             nationalities[national]++
         }
@@ -53,10 +54,11 @@ function getNationalities(data){
 // Returns dictionary
 // key: gender
 // value: int
-function getGenders(data){
+function getGenders(url){
+    data = getData(url)
     let genders = {};
     for (let i = 0; i < data.length; i++){
-        let gender = data[i].gender.toLowerCase();
+        let gender = data[i].toLowerCase();
         if (gender in genders){
             genders[gender]++
         }
@@ -71,10 +73,11 @@ function getGenders(data){
 // Returns dictionary
 // key: grade
 // value: int
-function getGrades(data){
+function getGrades(url){
+    data = getData(url)
     let grades = {};
     for (let i = 0; i < data.length; i++){
-        let g = data[i].grade.toLowerCase();
+        let g = data[i].toLowerCase();
         if (g in grades){
             grades[g]++
         }

@@ -317,4 +317,56 @@ public class DarkvoidController {
         moduleEnrolmentRepository.delete(moduleEnrolment);
         return ResponseEntity.ok().build();
     }
+    // ===============================================================
+    // New mappings
+    @CrossOrigin(origins = "http://localhost:63342")
+    @GetMapping("students/nationalities")
+    public List<String> getStudentNationalities(){
+        List<String> nationalities = new ArrayList<>();
+        for (Student student: studentRepository.findAll()) {
+            nationalities.add(student.getNationality());
+        }
+        return nationalities;
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @GetMapping("staff/nationalities")
+    public List<String> getStaffNationalities(){
+        List<String> nationalities = new ArrayList<>();
+        for (Staff staff: staffRepository.findAll()) {
+            nationalities.add(staff.getNationality());
+        }
+        return nationalities;
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @GetMapping("students/genders")
+    public List<String> getStudentGenders(){
+        List<String> genders = new ArrayList<>();
+        for (Student student: studentRepository.findAll()) {
+            genders.add(student.getGender());
+        }
+        return genders;
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @GetMapping("staff/genders")
+    public List<String> getStaffGenders(){
+        List<String> genders = new ArrayList<>();
+        for (Staff staff: staffRepository.findAll()) {
+            genders.add(staff.getGender());
+        }
+        return genders;
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @GetMapping("students/grades")
+    public List<String> getStudentGrades(){
+        List<String> grades = new ArrayList<>();
+        for (ModuleEnrolment moduleEnrolment: moduleEnrolmentRepository.findAll()) {
+            grades.add(moduleEnrolment.getGrade());
+        }
+        return grades;
+    }
+
 }
