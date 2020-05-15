@@ -93,6 +93,7 @@ public class DarkvoidController {
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/students")
     public Student createStudent(@Valid @RequestBody Student student) throws InvalidInputException{
+        log.info("New student: " + student.getUsername());
         if ( !(student.getPhoneNumber().contains("[0-9]+") &&
                 student.getPhoneNumber().length() > 6 &&
                 student.getPhoneNumber().length() < 13 &&
@@ -100,7 +101,6 @@ public class DarkvoidController {
                 student.getEmail().substring(student.getEmail().length()-4, student.getEmail().length()).equals(".com")) ) {
             throw new InvalidInputException();
         }
-
         student.setPassword(passwordEncoder.encode(student.getPassword()));
         return studentRepository.save(student);
     }
