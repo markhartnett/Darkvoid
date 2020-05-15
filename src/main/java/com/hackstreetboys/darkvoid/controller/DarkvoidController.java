@@ -92,10 +92,6 @@ public class DarkvoidController {
     // POST mappings
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/students")
-<<<<<<< HEAD
-    public Student createStudent(@Valid @RequestBody Student student){
-        log.info("New student: " + student.getUsername());
-=======
     public Student createStudent(@Valid @RequestBody Student student) throws InvalidInputException{
         if ( !(student.getPhoneNumber().contains("[0-9]+") &&
                 student.getPhoneNumber().length() > 6 &&
@@ -106,7 +102,6 @@ public class DarkvoidController {
         }
 
         student.setPassword(passwordEncoder.encode(student.getPassword()));
->>>>>>> 7c31c327c62165be76fe794485f980e8618c8768
         return studentRepository.save(student);
     }
 
@@ -138,12 +133,9 @@ public class DarkvoidController {
         String password = requestBody.getPassword();
         for (Student student:getAllStudents()) {
             if(student.getUsername().equals(username) && student.getPassword().equals(password)){
-<<<<<<< HEAD
                 log.info("Student user: " + username + ", logged in");
-=======
                 log.info(student.toString());
                 System.out.println(student.getID());
->>>>>>> 7c31c327c62165be76fe794485f980e8618c8768
                 return student.getID();
             }
         }
