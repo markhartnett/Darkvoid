@@ -93,20 +93,23 @@
                 email === '' ||
                 gender === '' ||
                 nationality === ''
-            ){
+            ) {
                 alert("Please select a value for all options");
-            }
-
-            else if (password.length < 8 ||
+            } else if (password.length < 8 ||
                 !password.match("[a-z]") ||
                 !password.match("[A-Z]") ||
                 !password.match("[0-9]") ||
                 !password.match("[!@#$\?€]")
-            ){
+            ) {
                 alert("Your password is too weak. Please choose a different password.");
-            }
-
-            else{
+            } else if (isNaN(phoneNumber) ||
+                        phoneNumber.toString().length < 6 ||
+                        phoneNumber.toString().length < 13) {
+                alert("Please enter a valid phone number")
+            } else if (!(email.includes("@") &&
+                        email.substring(email.length-4, email.length) === ".com")) {
+                alert("Please enter a valid email address")
+            } else {
                 students = getData('http://localhost:8080/students');
                 staff = getData('http://localhost:8080/staff');
                 usernames = getUsernames(students).concat(getUsernames(staff));
@@ -129,10 +132,15 @@
                             "phoneNumber": String(phoneNumber),
                             "gender": String(gender),
                             "nationality": String(nationality)
-                        })
+                        }),
+                        success: function(xml, textStatus, xhr) {
+                            if (xhr.status === 200) {
+                                alert("Your account has been created.");
+                            }
+                        }
                     });
                     event.preventDefault();
-                    alert("Your account has been created.");
+
                     window.location.href = "home.html"
                 }
             }

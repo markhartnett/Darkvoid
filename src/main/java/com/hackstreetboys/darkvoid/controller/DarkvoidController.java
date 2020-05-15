@@ -9,6 +9,7 @@ import com.hackstreetboys.darkvoid.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -25,6 +26,8 @@ public class DarkvoidController {
     @Autowired StaffRepository staffRepository;
     @Autowired ModuleRepository moduleRepository;
     @Autowired ModuleEnrolmentRepository moduleEnrolmentRepository;
+
+    @Autowired private PasswordEncoder passwordEncoder;
 
     // ===============================================================
     // GET mappings
@@ -89,8 +92,21 @@ public class DarkvoidController {
     // POST mappings
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/students")
+<<<<<<< HEAD
     public Student createStudent(@Valid @RequestBody Student student){
         log.info("New student: " + student.getUsername());
+=======
+    public Student createStudent(@Valid @RequestBody Student student) throws InvalidInputException{
+        if ( !(student.getPhoneNumber().contains("[0-9]+") &&
+                student.getPhoneNumber().length() > 6 &&
+                student.getPhoneNumber().length() < 13 &&
+                student.getEmail().contains("@") &&
+                student.getEmail().substring(student.getEmail().length()-4, student.getEmail().length()).equals(".com")) ) {
+            throw new InvalidInputException();
+        }
+
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
+>>>>>>> 7c31c327c62165be76fe794485f980e8618c8768
         return studentRepository.save(student);
     }
 
@@ -122,7 +138,12 @@ public class DarkvoidController {
         String password = requestBody.getPassword();
         for (Student student:getAllStudents()) {
             if(student.getUsername().equals(username) && student.getPassword().equals(password)){
+<<<<<<< HEAD
                 log.info("Student user: " + username + ", logged in");
+=======
+                log.info(student.toString());
+                System.out.println(student.getID());
+>>>>>>> 7c31c327c62165be76fe794485f980e8618c8768
                 return student.getID();
             }
         }
@@ -199,7 +220,15 @@ public class DarkvoidController {
     @CrossOrigin(origins = "http://localhost:63342")
     @PutMapping("/students/{id}")
     public Student updateStudent(@PathVariable(value = "id") Integer id,
-                                 @Valid @RequestBody Student studentDetails) throws StudentNotFoundException{
+                                 @Valid @RequestBody Student studentDetails) throws StudentNotFoundException, InvalidInputException{
+        if ( !(studentDetails.getPhoneNumber().contains("[0-9]+") &&
+                studentDetails.getPhoneNumber().length() > 6 &&
+                studentDetails.getPhoneNumber().length() < 13 &&
+                studentDetails.getEmail().contains("@") &&
+                studentDetails.getEmail().substring(studentDetails.getEmail().length()-4, studentDetails.getEmail().length()).equals(".com")) ) {
+            throw new InvalidInputException();
+        }
+
         Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
         student.setFirstName(studentDetails.getFirstName());
         student.setLastName(studentDetails.getLastName());
