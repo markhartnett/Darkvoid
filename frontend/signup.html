@@ -104,7 +104,7 @@
                 alert("Your password is too weak. Please choose a different password.");
             } else if (isNaN(phoneNumber) ||
                         phoneNumber.toString().length < 6 ||
-                        phoneNumber.toString().length < 13) {
+                        phoneNumber.toString().length > 13) {
                 alert("Please enter a valid phone number")
             } else if (!(email.includes("@") &&
                         email.substring(email.length-4, email.length) === ".com")) {
