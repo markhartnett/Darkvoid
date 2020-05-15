@@ -196,7 +196,15 @@ public class DarkvoidController {
     @CrossOrigin(origins = "http://localhost:63342")
     @PutMapping("/students/{id}")
     public Student updateStudent(@PathVariable(value = "id") Integer id,
-                                 @Valid @RequestBody Student studentDetails) throws StudentNotFoundException{
+                                 @Valid @RequestBody Student studentDetails) throws StudentNotFoundException, InvalidInputException{
+        if ( !(studentDetails.getPhoneNumber().contains("[0-9]+") &&
+                studentDetails.getPhoneNumber().length() > 6 &&
+                studentDetails.getPhoneNumber().length() < 13 &&
+                studentDetails.getEmail().contains("@") &&
+                studentDetails.getEmail().substring(studentDetails.getEmail().length()-4, studentDetails.getEmail().length()).equals(".com")) ) {
+            throw new InvalidInputException();
+        }
+
         Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
         student.setFirstName(studentDetails.getFirstName());
         student.setLastName(studentDetails.getLastName());
