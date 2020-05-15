@@ -89,24 +89,29 @@ public class DarkvoidController {
     // POST mappings
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/students")
-    public Student createStudent(@Valid @RequestBody Student student){ return studentRepository.save(student);
+    public Student createStudent(@Valid @RequestBody Student student){
+        log.info("New student: " + student.getUsername());
+        return studentRepository.save(student);
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/staff")
     public Staff createStaff(@Valid @RequestBody Staff staff){
+        log.info("New staff: " + staff.getUsername());
         return staffRepository.save(staff);
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/module")
     public Module createModule(@Valid @RequestBody Module module){
+        log.info("New module: " + module.getModuleName());
         return moduleRepository.save(module);
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/moduleEnrolment")
     public ModuleEnrolment createModuleEnrolment(@Valid @RequestBody ModuleEnrolment moduleEnrolment){
+        log.info("Student: " + moduleEnrolment.getStudent().getUsername() + ", enrolled in: " + moduleEnrolment.getModule().getModuleName());
         return moduleEnrolmentRepository.save(moduleEnrolment);
     }
 
@@ -117,11 +122,11 @@ public class DarkvoidController {
         String password = requestBody.getPassword();
         for (Student student:getAllStudents()) {
             if(student.getUsername().equals(username) && student.getPassword().equals(password)){
-                log.info(student.toString());
+                log.info("Student user: " + username + ", logged in");
                 return student.getID();
             }
         }
-        log.info("failed");
+        log.info("Login details were not of that of a staff member");
         return -1;
     }
 
@@ -132,6 +137,7 @@ public class DarkvoidController {
         String password = requestBody.getPassword();
         for (Staff staff:getAllStaff()) {
             if(staff.getUsername().equals(username) && staff.getPassword().equals(password)){
+                log.info("Staff user: " + username + ", logged in");
                 return staff.getID();
             }
         }
@@ -167,6 +173,8 @@ public class DarkvoidController {
             }
         }
 
+        log.info("Student: " + student.getUsername() + ", unenrolled from: " + module.getModuleName());
+
         deleteModuleEnrolment(enrolmentId);
         moduleRepository.save(module);
     }
@@ -182,6 +190,7 @@ public class DarkvoidController {
             }
         }
 
+        log.info("Student: " + student.getUsername() + " dropped out ");
         deleteStudent(student.getStudentId());
     }
 
@@ -247,6 +256,7 @@ public class DarkvoidController {
     public void changeGrade(@PathVariable(value = "studentId") Integer studentId,@PathVariable(value = "moduleId") String moduleId,@PathVariable(value = "newGrade") String newGrade) throws ModuleEnrolmentNotFoundException{
         for (ModuleEnrolment moduleEnrolment: getAllModuleEnrolments()) {
             if(moduleEnrolment.getStudent().getStudentId().equals(studentId) && moduleEnrolment.getModule().getModuleId().equals(moduleId)){
+                log.info("Student: " + moduleEnrolment.getStudent().getStudentId() + ", grade changed in " + moduleEnrolment.getModule().getModuleName() + " to " + newGrade);
                 moduleEnrolment.setGrade(newGrade);
                 updateModuleEnrolments(moduleEnrolment.getEnrolmentId(),moduleEnrolment);
             }
