@@ -9,6 +9,7 @@ import com.hackstreetboys.darkvoid.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -25,6 +26,8 @@ public class DarkvoidController {
     @Autowired StaffRepository staffRepository;
     @Autowired ModuleRepository moduleRepository;
     @Autowired ModuleEnrolmentRepository moduleEnrolmentRepository;
+
+    @Autowired private PasswordEncoder passwordEncoder;
 
     // ===============================================================
     // GET mappings
@@ -89,7 +92,9 @@ public class DarkvoidController {
     // POST mappings
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/students")
-    public Student createStudent(@Valid @RequestBody Student student){ return studentRepository.save(student);
+    public Student createStudent(@Valid @RequestBody Student student){
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
+        return studentRepository.save(student);
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
@@ -118,6 +123,7 @@ public class DarkvoidController {
         for (Student student:getAllStudents()) {
             if(student.getUsername().equals(username) && student.getPassword().equals(password)){
                 log.info(student.toString());
+                System.out.println(student.getID());
                 return student.getID();
             }
         }
