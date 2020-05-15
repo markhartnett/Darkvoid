@@ -1,4 +1,4 @@
-package config;
+package com.hackstreetboys.darkvoid.config;
 
 import org.springframework.web.WebApplicationInitializer;
 
