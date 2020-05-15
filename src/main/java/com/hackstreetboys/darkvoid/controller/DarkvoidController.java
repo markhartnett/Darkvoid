@@ -94,11 +94,11 @@ public class DarkvoidController {
     @PostMapping("/students")
     public Student createStudent(@Valid @RequestBody Student student) throws InvalidInputException{
         log.info("New student: " + student.getUsername());
-        if ( !(student.getPhoneNumber().contains("[0-9]+") &&
-                student.getPhoneNumber().length() > 6 &&
-                student.getPhoneNumber().length() < 13 &&
-                student.getEmail().contains("@") &&
-                student.getEmail().substring(student.getEmail().length()-4, student.getEmail().length()).equals(".com")) ) {
+        if ( student.getPhoneNumber().matches("[^0-9]") &&
+                student.getPhoneNumber().length() < 6 &&
+                student.getPhoneNumber().length() > 13 &&
+                !student.getEmail().contains("@") &&
+                !student.getEmail().substring(student.getEmail().length() - 4).equals(".com") ) {
             throw new InvalidInputException();
         }
         student.setPassword(passwordEncoder.encode(student.getPassword()));
