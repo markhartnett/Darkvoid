@@ -97,3 +97,19 @@ function getUsernames(data){
     }
     return usernames
 }
+
+const isNewUsername = function (username) {
+    let data = null;
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/isNewUsername',
+        data: JSON.stringify({username: String(username)}),
+        contentType: "application/json",
+        dataType: 'json',
+        async: false,
+        success: function (result) {
+            data = result;
+        }
+    });
+    return data;
+};

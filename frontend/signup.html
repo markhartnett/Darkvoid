@@ -110,11 +110,7 @@
                         email.substring(email.length-4, email.length) === ".com")) {
                 alert("Please enter a valid email address")
             } else {
-                students = getData('http://localhost:8080/students');
-                staff = getData('http://localhost:8080/staff');
-                usernames = getUsernames(students).concat(getUsernames(staff));
-
-                if (usernames.includes(String(username))) {
+                if (isNewUsername(username) === 0) {
                     alert("Username already taken please try again with different username");
                 }
                 else {

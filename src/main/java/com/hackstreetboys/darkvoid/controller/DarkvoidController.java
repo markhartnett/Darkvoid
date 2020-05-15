@@ -2,6 +2,7 @@ package com.hackstreetboys.darkvoid.controller;
 
 import com.hackstreetboys.darkvoid.DarkvoidApplication;
 import com.hackstreetboys.darkvoid.POJO.LoginEntity;
+import com.hackstreetboys.darkvoid.POJO.Username;
 import com.hackstreetboys.darkvoid.model.*;
 import com.hackstreetboys.darkvoid.model.Module;
 import com.hackstreetboys.darkvoid.repository.*;
@@ -369,4 +370,19 @@ public class DarkvoidController {
         return grades;
     }
 
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PostMapping("isNewUsername")
+    public int isNewUsername(@RequestBody Username username){
+        for (Student student : studentRepository.findAll()) {
+            if(student.getUsername().equals(username.getUsername())){
+                return 0;
+            }
+        }
+        for (Staff staff :  staffRepository.findAll()){
+            if(staff.getUsername().equals(username.getUsername())){
+                return 0;
+            }
+        }
+        return 1;
+    }
 }
