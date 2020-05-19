@@ -33,21 +33,11 @@
             username = username.replace(/[<\/">'"]/g, "");
             $('#welcome').append(username);
 
-            var s = $.ajax({
-                type: 'GET',
-                url: 'http://localhost:8080/moduleEnrolments/' + id,
-                contentType: "application/json",
-                dataType: 'json',
-                success: function (result) {
-                    return result.responseJSON;
-                }
-            });
-
-            console.log(s);
             var getModules = function(id) {
                 return $.ajax({
-                    type: 'GET',
-                    url: 'http://localhost:8080/moduleEnrolments/' + id,
+                    type: 'POST',
+                    url: 'http://localhost:8080/moduleEnrolmentsId',
+                    data: JSON.stringify({id: String(id)}),
                     contentType: "application/json",
                     dataType: 'json',
                     success: function (result) {
@@ -59,8 +49,6 @@
             $(document).ready(function() {
                 var id = $.cookie('id');
                 var moduleData;
-
-
 
                 $.when(getModules(id)).done(function (data) {
                     moduleData = data;
@@ -92,7 +80,8 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8080/cancelEnrolment/' + id + '/' + moduleCode,
+                        url: 'http://localhost:8080/cancelEnrolment',
+                        data: JSON.stringify({studentId:String(id), moduleId:String(moduleCode)}),
                         contentType: "application/json",
                         dataType: 'json',
                         success: function (result) {
@@ -106,7 +95,8 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8080/cancelEnrolment/' + id + '/' + moduleCode,
+                        url: 'http://localhost:8080/cancelEnrolment',
+                        data: JSON.stringify({studentId:String(id), moduleId:String(moduleCode)}),
                         contentType: "application/json",
                         dataType: 'json',
                         success: function (result) {
@@ -120,7 +110,8 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8080/cancelEnrolment/' + id + '/' + moduleCode,
+                        url: 'http://localhost:8080/cancelEnrolment',
+                        data: JSON.stringify({studentId:String(id), moduleId:String(moduleCode)}),
                         contentType: "application/json",
                         dataType: 'json',
                         success: function (result) {
@@ -136,7 +127,8 @@
                 $("#dropout").click(function () {
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8080/studentDropout/' + id,
+                        url: 'http://localhost:8080/studentDropout',
+                        data: JSON.stringify({id:String(id)}),
                         contentType: "application/json",
                         dataType: 'json',
                         success: function (result) {

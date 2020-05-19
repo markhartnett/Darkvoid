@@ -1,8 +1,7 @@
 package com.hackstreetboys.darkvoid.controller;
 
 import com.hackstreetboys.darkvoid.DarkvoidApplication;
-import com.hackstreetboys.darkvoid.POJO.LoginEntity;
-import com.hackstreetboys.darkvoid.POJO.Username;
+import com.hackstreetboys.darkvoid.POJO.*;
 import com.hackstreetboys.darkvoid.model.*;
 import com.hackstreetboys.darkvoid.model.Module;
 import com.hackstreetboys.darkvoid.repository.*;
@@ -32,62 +31,62 @@ public class DarkvoidController {
 
     // ===============================================================
     // GET mappings
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/students")
-    public List<Student> getAllStudents() { return studentRepository.findAll(); }
+//    @CrossOrigin(origins = "http://localhost:63342")
+//    @GetMapping("/students")
+//    public List<Student> getAllStudents() { return studentRepository.findAll(); }
+//
+//    @CrossOrigin(origins = "http://localhost:63342")
+//    @GetMapping("/staff")
+//    public List<Staff> getAllStaff() { return staffRepository.findAll(); }
+//
+//    @CrossOrigin(origins = "http://localhost:63342")
+//    @GetMapping("/modules")
+//    public List<Module> getAllModules() { return moduleRepository.findAll(); }
+//
+//    @CrossOrigin(origins = "http://localhost:63342")
+//    @GetMapping("/moduleEnrolment")
+//    public List<ModuleEnrolment> getAllModuleEnrolments() { return moduleEnrolmentRepository.findAll(); }
 
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/staff")
-    public List<Staff> getAllStaff() { return staffRepository.findAll(); }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/modules")
-    public List<Module> getAllModules() { return moduleRepository.findAll(); }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/moduleEnrolment")
-    public List<ModuleEnrolment> getAllModuleEnrolments() { return moduleEnrolmentRepository.findAll(); }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/students/{id}")
-    public Student getStudentById(@PathVariable(value = "id") Integer id) throws StudentNotFoundException{
-        return studentRepository.findById(id)
-                .orElseThrow(() -> new StudentNotFoundException(id));
-    }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/staff/{id}")
-    public Staff getStaffById(@PathVariable(value = "id") Integer id) throws StaffNotFoundException{
-        return staffRepository.findById(id)
-                .orElseThrow(() -> new StaffNotFoundException(id));
-    }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/modules/{id}")
-    public Module getModuleById(@PathVariable(value = "id") String id) throws ModuleNotFoundException{
-        return moduleRepository.findById(id)
-                .orElseThrow(() -> new ModuleNotFoundException(id));
-    }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/moduleEnrolments/{id}")
-    public List<List<String>> getModulesAndGradesByStudentId(@PathVariable(value = "id") Integer id){
-        List<ModuleEnrolment> enrolments = moduleEnrolmentRepository.findAll();
-
-        List<List<String>> modulesAndGrades = new ArrayList<List<String>>();
-
-        for (ModuleEnrolment enrolment:enrolments) {
-            if(enrolment.getStudent().getStudentId().equals(id)){
-                List<String> moduleAndGrade = new ArrayList<>();
-                moduleAndGrade.add(enrolment.getModule().getModuleId());
-                moduleAndGrade.add(enrolment.getGrade());
-
-                modulesAndGrades.add(moduleAndGrade);
-            }
-        }
-
-        return modulesAndGrades;
-    }
+//    @CrossOrigin(origins = "http://localhost:63342")
+//    @GetMapping("/students/{id}")
+//    public Student getStudentById(@PathVariable(value = "id") Integer id) throws StudentNotFoundException{
+//        return studentRepository.findById(id)
+//                .orElseThrow(() -> new StudentNotFoundException(id));
+//    }
+//
+//    @CrossOrigin(origins = "http://localhost:63342")
+//    @GetMapping("/staff/{id}")
+//    public Staff getStaffById(@PathVariable(value = "id") Integer id) throws StaffNotFoundException{
+//        return staffRepository.findById(id)
+//                .orElseThrow(() -> new StaffNotFoundException(id));
+//    }
+//
+//    @CrossOrigin(origins = "http://localhost:63342")
+//    @GetMapping("/modules/{id}")
+//    public Module getModuleById(@PathVariable(value = "id") String id) throws ModuleNotFoundException{
+//        return moduleRepository.findById(id)
+//                .orElseThrow(() -> new ModuleNotFoundException(id));
+//    }
+//
+//    @CrossOrigin(origins = "http://localhost:63342")
+//    @GetMapping("/moduleEnrolments/{id}")
+//    public List<List<String>> getModulesAndGradesByStudentId(@PathVariable(value = "id") Integer id){
+//        List<ModuleEnrolment> enrolments = moduleEnrolmentRepository.findAll();
+//
+//        List<List<String>> modulesAndGrades = new ArrayList<List<String>>();
+//
+//        for (ModuleEnrolment enrolment:enrolments) {
+//            if(enrolment.getStudent().getStudentId().equals(id)){
+//                List<String> moduleAndGrade = new ArrayList<>();
+//                moduleAndGrade.add(enrolment.getModule().getModuleId());
+//                moduleAndGrade.add(enrolment.getGrade());
+//
+//                modulesAndGrades.add(moduleAndGrade);
+//            }
+//        }
+//
+//        return modulesAndGrades;
+//    }
 
     // ===============================================================
     // POST mappings
@@ -132,7 +131,7 @@ public class DarkvoidController {
     public int checkLoginStudent(@RequestBody LoginEntity requestBody){
         String username = requestBody.getUsername();
         String password = requestBody.getPassword();
-        for (Student student:getAllStudents()) {
+        for (Student student:studentRepository.findAll()) {
             if(student.getUsername().equals(username) && student.getPassword().equals(password)){
                 log.info("Student user: " + username + ", logged in");
                 log.info(student.toString());
@@ -149,7 +148,7 @@ public class DarkvoidController {
     public int checkLoginStaff(@RequestBody LoginEntity requestBody){
         String username = requestBody.getUsername();
         String password = requestBody.getPassword();
-        for (Staff staff:getAllStaff()) {
+        for (Staff staff:staffRepository.findAll()) {
             if(staff.getUsername().equals(username) && staff.getPassword().equals(password)){
                 log.info("Staff user: " + username + ", logged in");
                 return staff.getID();
@@ -160,8 +159,10 @@ public class DarkvoidController {
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
-    @PostMapping("/enrol/{studentId}/{moduleId}")
-    public ModuleEnrolment enrolStudent(@PathVariable(value = "studentId") Integer studentId, @PathVariable(value = "moduleId") String moduleId) throws ModuleNotFoundException, StudentNotFoundException {
+    @PostMapping("/enrol")
+    public ModuleEnrolment enrolStudent(@RequestBody Enrolment enrolment) throws ModuleNotFoundException, StudentNotFoundException {
+        int studentId = enrolment.getStudentId();
+        String moduleId = enrolment.getModuleId();
         Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new ModuleNotFoundException(moduleId));
         module.setNumberOfStudents(module.getNumberOfStudents()+1);
         moduleRepository.save(module);
@@ -172,8 +173,10 @@ public class DarkvoidController {
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
-    @PostMapping("/cancelEnrolment/{studentId}/{moduleId}")
-    public void cancelEnrolment(@PathVariable(value = "studentId") Integer studentId, @PathVariable(value = "moduleId") String moduleId) throws ModuleNotFoundException, StudentNotFoundException, ModuleEnrolmentNotFoundException {
+    @PostMapping("/cancelEnrolment")
+    public void cancelEnrolment(@RequestBody Enrolment enrolment) throws ModuleNotFoundException, StudentNotFoundException, ModuleEnrolmentNotFoundException {
+        int studentId = enrolment.getStudentId();
+        String moduleId = enrolment.getModuleId();
         Module module = moduleRepository.findById(moduleId).orElseThrow(() -> new ModuleNotFoundException(moduleId));
         module.setNumberOfStudents(module.getNumberOfStudents()-1);
 
@@ -194,13 +197,15 @@ public class DarkvoidController {
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
-    @PostMapping("/studentDropout/{id}")
-    public void studentDropOut(@PathVariable(value = "id") Integer id) throws StudentNotFoundException, ModuleEnrolmentNotFoundException, ModuleNotFoundException {
+    @PostMapping("/studentDropout")
+    public void studentDropOut(@RequestBody Id idNum) throws StudentNotFoundException, ModuleEnrolmentNotFoundException, ModuleNotFoundException {
+        int id = idNum.getId();
         Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
 
         for (ModuleEnrolment moduleEnrolment:moduleEnrolmentRepository.findAll()) {
             if(moduleEnrolment.getStudent().equals(student)){
-                cancelEnrolment(id,moduleEnrolment.getModule().getModuleId());
+
+                cancelEnrolment(new Enrolment(id,moduleEnrolment.getModule().getModuleId()));
             }
         }
 
@@ -276,7 +281,7 @@ public class DarkvoidController {
     @CrossOrigin(origins = "http://localhost:63342")
     @PutMapping("/changeGrade/{studentId}/{moduleId}/{newGrade}")
     public void changeGrade(@PathVariable(value = "studentId") Integer studentId,@PathVariable(value = "moduleId") String moduleId,@PathVariable(value = "newGrade") String newGrade) throws ModuleEnrolmentNotFoundException{
-        for (ModuleEnrolment moduleEnrolment: getAllModuleEnrolments()) {
+        for (ModuleEnrolment moduleEnrolment: moduleEnrolmentRepository.findAll()) {
             if(moduleEnrolment.getStudent().getStudentId().equals(studentId) && moduleEnrolment.getModule().getModuleId().equals(moduleId)){
                 log.info("Student: " + moduleEnrolment.getStudent().getStudentId() + ", grade changed in " + moduleEnrolment.getModule().getModuleName() + " to " + newGrade);
                 moduleEnrolment.setGrade(newGrade);
@@ -384,5 +389,50 @@ public class DarkvoidController {
             }
         }
         return 1;
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PostMapping("/studentsId")
+    public Student getStudentById(@RequestBody Id idNum) throws StudentNotFoundException{
+        int id = idNum.getId();
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException(id));
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PostMapping("/staffId")
+    public Staff getStaffById(@RequestBody Id idNum) throws StaffNotFoundException{
+        int id = idNum.getId();
+        return staffRepository.findById(id)
+                .orElseThrow(() -> new StaffNotFoundException(id));
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PostMapping("/modulesId")
+    public Module getModuleById(@RequestBody ModuleCode moduleCode) throws ModuleNotFoundException{
+        String id = moduleCode.getId();
+        return moduleRepository.findById(id)
+                .orElseThrow(() -> new ModuleNotFoundException(id));
+    }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PostMapping("/moduleEnrolmentsId")
+    public List<List<String>> getModulesAndGradesByStudentId(@RequestBody Id idNum){
+        int id = idNum.getId();
+        List<ModuleEnrolment> enrolments = moduleEnrolmentRepository.findAll();
+
+        List<List<String>> modulesAndGrades = new ArrayList<List<String>>();
+
+        for (ModuleEnrolment enrolment:enrolments) {
+            if(enrolment.getStudent().getStudentId().equals(id)){
+                List<String> moduleAndGrade = new ArrayList<>();
+                moduleAndGrade.add(enrolment.getModule().getModuleId());
+                moduleAndGrade.add(enrolment.getGrade());
+
+                modulesAndGrades.add(moduleAndGrade);
+            }
+        }
+
+        return modulesAndGrades;
     }
 }
