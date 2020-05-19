@@ -213,112 +213,28 @@ public class DarkvoidController {
         deleteStudent(student.getStudentId());
     }
 
-    // ===============================================================
-    // PUT mappings
-    @CrossOrigin(origins = "http://localhost:63342")
-    @PutMapping("/students/{id}")
-    public Student updateStudent(@PathVariable(value = "id") Integer id,
-                                 @Valid @RequestBody Student studentDetails) throws StudentNotFoundException, InvalidInputException{
-        if ( !(studentDetails.getPhoneNumber().contains("[0-9]+") &&
-                studentDetails.getPhoneNumber().length() > 6 &&
-                studentDetails.getPhoneNumber().length() < 13 &&
-                studentDetails.getEmail().contains("@") &&
-                studentDetails.getEmail().substring(studentDetails.getEmail().length()-4, studentDetails.getEmail().length()).equals(".com")) ) {
-            throw new InvalidInputException();
-        }
-
-        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
-        student.setFirstName(studentDetails.getFirstName());
-        student.setLastName(studentDetails.getLastName());
-        student.setUsername(studentDetails.getUsername());
-        student.setPassword(studentDetails.getPassword());
-        student.setPhoneNumber(studentDetails.getPhoneNumber());
-        student.setEmail(studentDetails.getEmail());
-        student.setGender(studentDetails.getGender());
-        student.setNationality(studentDetails.getNationality());
-        student.setFeesdue(studentDetails.getFeesdue());
-        student.setFeespaid(studentDetails.getFeespaid());
-        return studentRepository.save(student);
-    }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @PutMapping("/staff/{id}")
-    public Staff updateStaff(@PathVariable(value = "id") Integer id,
-                             @Valid @RequestBody Staff staffDetails) throws StaffNotFoundException{
-        Staff staff = staffRepository.findById(id).orElseThrow(() -> new StaffNotFoundException(id));
-        staff.setFirstName(staffDetails.getFirstName());
-        staff.setLastName(staffDetails.getLastName());
-        staff.setGender(staffDetails.getGender());
-        staff.setNationality(staffDetails.getNationality());
-        staff.setUsername(staffDetails.getUsername());
-        staff.setPassword(staffDetails.getPassword());
-        return staffRepository.save(staff);
-    }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @PutMapping("/modules/{id}")
-    public Module updateModule(@PathVariable(value = "id") String id,
-                               @Valid @RequestBody Module moduleDetails) throws ModuleNotFoundException{
-        Module module = moduleRepository.findById(id).orElseThrow(() -> new ModuleNotFoundException(id));
-        module.setModuleName(moduleDetails.getModuleName());
-        module.setCoordinator(moduleDetails.getCoordinator());
-        module.setTopics(moduleDetails.getTopics());
-        return moduleRepository.save(module);
-    }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @PutMapping("/moduleEnrolments/{id}")
-    public ModuleEnrolment updateModuleEnrolments(@PathVariable(value = "id") Integer id,
-                               @Valid @RequestBody ModuleEnrolment moduleEnrolmentDetails) throws ModuleEnrolmentNotFoundException{
-        ModuleEnrolment moduleEnrolment = moduleEnrolmentRepository.findById(id).orElseThrow(() -> new ModuleEnrolmentNotFoundException(id));
-        moduleEnrolment.setEnrolmentId(moduleEnrolmentDetails.getEnrolmentId());
-        moduleEnrolment.setGrade(moduleEnrolmentDetails.getGrade());
-        moduleEnrolment.setModule(moduleEnrolmentDetails.getModule());
-        moduleEnrolment.setStudent(moduleEnrolmentDetails.getStudent());
-        return moduleEnrolmentRepository.save(moduleEnrolment);
-    }
-
-    @CrossOrigin(origins = "http://localhost:63342")
-    @PutMapping("/changeGrade/{studentId}/{moduleId}/{newGrade}")
-    public void changeGrade(@PathVariable(value = "studentId") Integer studentId,@PathVariable(value = "moduleId") String moduleId,@PathVariable(value = "newGrade") String newGrade) throws ModuleEnrolmentNotFoundException{
-        for (ModuleEnrolment moduleEnrolment: moduleEnrolmentRepository.findAll()) {
-            if(moduleEnrolment.getStudent().getStudentId().equals(studentId) && moduleEnrolment.getModule().getModuleId().equals(moduleId)){
-                log.info("Student: " + moduleEnrolment.getStudent().getStudentId() + ", grade changed in " + moduleEnrolment.getModule().getModuleName() + " to " + newGrade);
-                moduleEnrolment.setGrade(newGrade);
-                updateModuleEnrolments(moduleEnrolment.getEnrolmentId(),moduleEnrolment);
-            }
-        }
-    }
 
     // ===============================================================
     // DELETE mappings
-    @CrossOrigin(origins = "http://localhost:63342")
-    @DeleteMapping("/students/{id}")
-    public ResponseEntity<?> deleteStudent(@PathVariable(value = "id") Integer id) throws StudentNotFoundException{
+    public ResponseEntity<?> deleteStudent(Integer id) throws StudentNotFoundException{
         Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
         studentRepository.delete(student);
         return ResponseEntity.ok().build();
     }
 
-    @CrossOrigin(origins = "http://localhost:63342")
-    @DeleteMapping("/staff/{id}")
-    public ResponseEntity<?> deleteStaff(@PathVariable(value = "id") Integer id) throws StaffNotFoundException{
+    public ResponseEntity<?> deleteStaff(Integer id) throws StaffNotFoundException{
         Staff staff = staffRepository.findById(id).orElseThrow(() -> new StaffNotFoundException(id));
         staffRepository.delete(staff);
         return ResponseEntity.ok().build();
     }
 
-    @CrossOrigin(origins = "http://localhost:63342")
-    @DeleteMapping("/modules/{id}")
-    public ResponseEntity<?> deleteModule(@PathVariable(value = "id") String id) throws ModuleNotFoundException{
+    public ResponseEntity<?> deleteModule(String id) throws ModuleNotFoundException{
         Module module = moduleRepository.findById(id).orElseThrow(() -> new ModuleNotFoundException(id));
         moduleRepository.delete(module);
         return ResponseEntity.ok().build();
     }
 
-    @CrossOrigin(origins = "http://localhost:63342")
-    @DeleteMapping("/moduleEnrolments/{id}")
-    public ResponseEntity<?> deleteModuleEnrolment(@PathVariable(value = "id") int id) throws ModuleEnrolmentNotFoundException{
+    public ResponseEntity<?> deleteModuleEnrolment(int id) throws ModuleEnrolmentNotFoundException{
         ModuleEnrolment moduleEnrolment = moduleEnrolmentRepository.findById(id).orElseThrow(() -> new ModuleEnrolmentNotFoundException(id));
         moduleEnrolmentRepository.delete(moduleEnrolment);
         return ResponseEntity.ok().build();
