@@ -7,13 +7,24 @@ import com.hackstreetboys.darkvoid.model.*;
 import com.hackstreetboys.darkvoid.model.Module;
 import com.hackstreetboys.darkvoid.repository.*;
 import com.hackstreetboys.darkvoid.exception.*;
+
+import org.apache.http.HttpClientConnection;
+import org.apache.http.client.HttpClient;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.SSLContext;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +40,8 @@ public class DarkvoidController {
     @Autowired ModuleEnrolmentRepository moduleEnrolmentRepository;
 
     @Autowired private PasswordEncoder passwordEncoder;
+    @Value("${server.ssl.trust-store-password}")
+    String trustStorePassword;
 
     // ===============================================================
     // GET mappings
