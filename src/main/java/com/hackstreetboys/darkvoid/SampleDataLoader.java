@@ -1,9 +1,14 @@
 package com.hackstreetboys.darkvoid;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.google.gson.Gson;
 import com.hackstreetboys.darkvoid.model.*;
 import com.hackstreetboys.darkvoid.model.Module;
 import com.hackstreetboys.darkvoid.repository.*;
@@ -44,14 +49,32 @@ public class SampleDataLoader implements ApplicationRunner {
     private final String[] GRADES = {"A+","A","A-","B+","A","A-","B+","B","A","A-","B+","A","A-","B+","B","B-","C+","C","C-","B","B-","C+","C","C-","B","B-","C+","C","C-","B","B-","C+","C","C-","D+","D","D-","D+","D","D-","E","F"};
 
     public void run(ApplicationArguments args) throws Exception{
-        students.save(new Student("Jakub", "Gajewski", "TheFlyingPolak", "pASSw0rd!", "0874206969", "jakub.gajewski@ucdconnect.ie", "Male", "Polish", 0, 254));
-
         for (int i = 0; i < NUMBER_OF_STUDENTS; i++){
-            students.save(generateRandomStudent());
+            Student student;
+            if (i==0)
+                student  = new Student("Jakub", "Gajewski", "TheFlyingPolak", "pASSw0rd!", "0874206969", "jakub.gajewski@ucdconnect.ie", "Male", "Polish", 0, 254);
+            else
+                student = generateRandomStudent();
+
+            Gson gson = new Gson();
+            String json = gson.toJson(student);
+
+            URL url = new URL ("http://localhost:8080/students");
+
+            postObjects(json,url);
         }
+
         for (int i = 0; i < NUMBER_OF_STAFF; i++){
-            staff.save(generateRandomStaff());
+            Staff staff = generateRandomStaff();
+
+            Gson gson = new Gson();
+            String json = gson.toJson(staff);
+
+            URL url = new URL ("http://localhost:8080/staff");
+
+            postObjects(json,url);
         }
+
         for (int i = 0; i < NUMBER_OF_MODULES; i++){
             modules.save(new Module(MODULE_CODES[i],MODULE_NAMES[i],staff.findAll().get(i % NUMBER_OF_STAFF),MODULE_TOPICS[i],0,20));
         }
@@ -86,6 +109,21 @@ public class SampleDataLoader implements ApplicationRunner {
             }
         }
 
+    }
+
+    private void postObjects(String json, URL url) throws IOException {
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json; utf-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
+
+        try(OutputStream os = con.getOutputStream()) {
+            byte[] input = json.getBytes("utf-8");
+            os.write(input, 0, input.length);
+        }
+
+        con.getInputStream();
     }
 
     private Student generateRandomStudent(){

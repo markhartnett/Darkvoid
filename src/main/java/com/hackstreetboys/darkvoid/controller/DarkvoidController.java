@@ -109,6 +109,7 @@ public class DarkvoidController {
     @PostMapping("/staff")
     public Staff createStaff(@Valid @RequestBody Staff staff){
         log.info("New staff: " + staff.getUsername());
+        staff.setPassword(passwordEncoder.encode(staff.getPassword()));
         return staffRepository.save(staff);
     }
 
@@ -132,14 +133,14 @@ public class DarkvoidController {
         String username = requestBody.getUsername();
         String password = requestBody.getPassword();
         for (Student student:studentRepository.findAll()) {
-            if(student.getUsername().equals(username) && student.getPassword().equals(password)){
+            if(student.getUsername().equals(username) && passwordEncoder.matches(password,student.getPassword())){
                 log.info("Student user: " + username + ", logged in");
                 log.info(student.toString());
                 System.out.println(student.getID());
                 return student.getID();
             }
         }
-        log.info("Login details were not of that of a staff member");
+        log.info("Login details were not of that of a student member");
         return -1;
     }
 
@@ -149,7 +150,7 @@ public class DarkvoidController {
         String username = requestBody.getUsername();
         String password = requestBody.getPassword();
         for (Staff staff:staffRepository.findAll()) {
-            if(staff.getUsername().equals(username) && staff.getPassword().equals(password)){
+            if(staff.getUsername().equals(username) && passwordEncoder.matches(password,staff.getPassword())){
                 log.info("Staff user: " + username + ", logged in");
                 return staff.getID();
             }
