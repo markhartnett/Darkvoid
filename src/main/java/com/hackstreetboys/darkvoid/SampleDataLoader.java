@@ -65,7 +65,11 @@ public class SampleDataLoader implements ApplicationRunner {
         }
 
         for (int i = 0; i < NUMBER_OF_STAFF; i++){
-            Staff staff = generateRandomStaff();
+            Staff staff;
+            if (i == 0)
+                staff = new Staff("Mel", "O'Cinneide", "Male", "Irish", "meloc420", "Des!gnPattern$69");
+            else
+                staff = generateRandomStaff();
 
             Gson gson = new Gson();
             String json = gson.toJson(staff);
