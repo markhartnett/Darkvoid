@@ -352,4 +352,20 @@ public class DarkvoidController {
 
         return modulesAndGrades;
     }
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PostMapping("/myModules")
+    public List<Module> getStaffModulesById(@RequestBody Id idNum){
+        int id = idNum.getId();
+        List<Module> staffModules = new ArrayList<>();
+
+        for(Module module : moduleRepository.findAll()){
+            if(module.getCoordinator().getStaffId().equals(id)){
+                staffModules.add(module);
+                log.info(module.getModuleName());
+            }
+        }
+
+        return staffModules;
+    }
 }

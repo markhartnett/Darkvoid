@@ -88,6 +88,24 @@ function getGrades(url){
     return grades
 }
 
+function myModules(id) {
+    let data = [];
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/myModules',
+        data: JSON.stringify({id: String(id)}),
+        contentType: "application/json",
+        dataType: 'json',
+        async: false,
+        success: function(d) {
+            $.each(d, function(key, value) {
+                data.push(value);
+            });
+        }
+    });
+    return data;
+}
+
 // Accepts list of students/staff
 // Returns array of usernames
 function getUsernames(data){
