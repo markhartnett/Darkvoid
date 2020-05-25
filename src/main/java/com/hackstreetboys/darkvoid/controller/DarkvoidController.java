@@ -9,6 +9,7 @@ import com.hackstreetboys.darkvoid.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class DarkvoidController {
                 !student.getEmail().substring(student.getEmail().length() - 4).equals(".com") ) {
             throw new InvalidInputException();
         }
-        student.setPassword(passwordEncoder.encode(student.getPassword()));
+        student.setPassword(BCrypt.hashpw(student.getPassword(), BCrypt.gensalt()));
         return studentRepository.save(student);
     }
 
@@ -50,7 +51,7 @@ public class DarkvoidController {
     @PostMapping("/staff")
     public Staff createStaff(@Valid @RequestBody Staff staff){
         log.info("New staff: " + staff.getUsername());
-        staff.setPassword(passwordEncoder.encode(staff.getPassword()));
+        staff.setPassword(BCrypt.hashpw(staff.getPassword(), BCrypt.gensalt()));
         return staffRepository.save(staff);
     }
 
@@ -74,7 +75,7 @@ public class DarkvoidController {
         String username = requestBody.getUsername();
         String password = requestBody.getPassword();
         for (Student student:studentRepository.findAll()) {
-            if(student.getUsername().equals(username) && passwordEncoder.matches(password,student.getPassword())){
+            if(student.getUsername().equals(username) && BCrypt.checkpw(password,student.getPassword())){
                 log.info("Student user: " + username + ", logged in");
                 log.info(student.toString());
                 System.out.println(student.getID());
@@ -91,7 +92,7 @@ public class DarkvoidController {
         String username = requestBody.getUsername();
         String password = requestBody.getPassword();
         for (Staff staff:staffRepository.findAll()) {
-            if(staff.getUsername().equals(username) && passwordEncoder.matches(password,staff.getPassword())){
+            if(staff.getUsername().equals(username) && BCrypt.checkpw(password,staff.getPassword())){
                 log.info("Staff user: " + username + ", logged in");
                 return staff.getID();
             }
