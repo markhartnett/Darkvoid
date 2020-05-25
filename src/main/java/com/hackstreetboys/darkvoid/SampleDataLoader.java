@@ -1,16 +1,9 @@
 package com.hackstreetboys.darkvoid;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.google.gson.Gson;
 import com.hackstreetboys.darkvoid.model.*;
 import com.hackstreetboys.darkvoid.model.Module;
 import com.hackstreetboys.darkvoid.repository.*;
@@ -19,10 +12,6 @@ import org.springframework.boot.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 @Component
 public class SampleDataLoader implements ApplicationRunner {
@@ -79,36 +68,27 @@ public class SampleDataLoader implements ApplicationRunner {
         }
 
         for (int i = 0; i < NUMBER_OF_MODULES; i++){
-            modules.save(new Module(MODULE_CODES[i],MODULE_NAMES[i],staffRepository.findAll().get(i % NUMBER_OF_STAFF),MODULE_TOPICS[i],0,20));
+            Module module = new Module(MODULE_CODES[i],MODULE_NAMES[i],staffRepository.findAll().get(i % NUMBER_OF_STAFF),MODULE_TOPICS[i],0,20);
+            modules.save(module);
         }
 
+        List<Module> availableModules = modules.findAll();
 
         for(Student student:students.findAll()){
-            List<Module> availableModules = modules.findAll();
-
-            for (Module module:availableModules) {
-                if(module.getNumberOfStudents() >= module.getMaxStudents()){
-                    availableModules.remove(module);
-                }
-            }
-
             for(int i = 0; i < 3; i++){
                 Random random = new Random();
                 int x = random.nextInt(availableModules.size());
                 Module module = availableModules.get(x);
-                while(module.getNumberOfStudents() >= module.getMaxStudents()) {
-                    x = random.nextInt((NUMBER_OF_MODULES - 1) + 1) + 1;
-                    module = modules.findAll().get(x);
-                }
 
                 module.setNumberOfStudents(module.getNumberOfStudents()+1);
                 modules.save(module);
+                if(module.getNumberOfStudents()>=module.getMaxStudents()){
+                    availableModules.remove(module);
+                }
+
                 ModuleEnrolment moduleEnrolment = new ModuleEnrolment(module,student);
                 moduleEnrolment.setGrade(getRandom(GRADES));
                 enrolment.save(moduleEnrolment);
-
-
-                availableModules.remove(module);
             }
         }
 
