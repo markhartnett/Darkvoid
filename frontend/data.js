@@ -92,7 +92,7 @@ function myModules(id) {
     let data = [];
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/myModules',
+        url: 'https://localhost:8443/myModules',
         data: JSON.stringify({id: String(id)}),
         contentType: "application/json",
         dataType: 'json',
@@ -120,7 +120,7 @@ const isNewUsername = function (username) {
     let data = null;
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/isNewUsername',
+        url: 'https://localhost:8443/isNewUsername',
         data: JSON.stringify({username: String(username)}),
         contentType: "application/json",
         dataType: 'json',

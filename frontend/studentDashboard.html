@@ -33,7 +33,7 @@
             var getModules = function(id) {
                 return $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8080/moduleEnrolmentsId',
+                    url: 'https://localhost:8443/moduleEnrolmentsId',
                     data: JSON.stringify({id: String(id)}),
                     contentType: "application/json",
                     dataType: 'json',
@@ -77,7 +77,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8080/cancelEnrolment',
+                        url: 'https://localhost:8443/cancelEnrolment',
                         data: JSON.stringify({studentId:String(id), moduleId:String(moduleCode)}),
                         contentType: "application/json",
                         dataType: 'json',
@@ -92,7 +92,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8080/cancelEnrolment',
+                        url: 'https://localhost:8443/cancelEnrolment',
                         data: JSON.stringify({studentId:String(id), moduleId:String(moduleCode)}),
                         contentType: "application/json",
                         dataType: 'json',
@@ -107,7 +107,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8080/cancelEnrolment',
+                        url: 'https://localhost:8443/cancelEnrolment',
                         data: JSON.stringify({studentId:String(id), moduleId:String(moduleCode)}),
                         contentType: "application/json",
                         dataType: 'json',
@@ -124,7 +124,7 @@
                 $("#dropout").click(function () {
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8080/studentDropout',
+                        url: 'https://localhost:8443/studentDropout',
                         data: JSON.stringify({id:String(id)}),
                         contentType: "application/json",
                         dataType: 'json',
