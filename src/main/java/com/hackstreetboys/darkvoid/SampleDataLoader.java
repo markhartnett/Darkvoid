@@ -60,7 +60,7 @@ public class SampleDataLoader implements ApplicationRunner {
         for (int i = 0; i < NUMBER_OF_STAFF; i++){
             Staff staff;
             if (i == 0)
-                staff = new Staff("Mel", "O'Cinneide", "Male", "Irish", "meloc420", "Des!gnPattern$69");
+                staff = new Staff("Joe", "Bloggs", "Male", "Irish", "joeb123", BCrypt.hashpw("pASSw0rd!", BCrypt.gensalt()));
             else
                 staff = generateRandomStaff();
 
