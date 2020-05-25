@@ -30,65 +30,6 @@ public class DarkvoidController {
     @Autowired private PasswordEncoder passwordEncoder;
 
     // ===============================================================
-    // GET mappings
-//    @CrossOrigin(origins = "http://localhost:63342")
-//    @GetMapping("/students")
-//    public List<Student> getAllStudents() { return studentRepository.findAll(); }
-//
-//    @CrossOrigin(origins = "http://localhost:63342")
-//    @GetMapping("/staff")
-//    public List<Staff> getAllStaff() { return staffRepository.findAll(); }
-//
-//    @CrossOrigin(origins = "http://localhost:63342")
-//    @GetMapping("/modules")
-//    public List<Module> getAllModules() { return moduleRepository.findAll(); }
-//
-//    @CrossOrigin(origins = "http://localhost:63342")
-//    @GetMapping("/moduleEnrolment")
-//    public List<ModuleEnrolment> getAllModuleEnrolments() { return moduleEnrolmentRepository.findAll(); }
-
-//    @CrossOrigin(origins = "http://localhost:63342")
-//    @GetMapping("/students/{id}")
-//    public Student getStudentById(@PathVariable(value = "id") Integer id) throws StudentNotFoundException{
-//        return studentRepository.findById(id)
-//                .orElseThrow(() -> new StudentNotFoundException(id));
-//    }
-//
-//    @CrossOrigin(origins = "http://localhost:63342")
-//    @GetMapping("/staff/{id}")
-//    public Staff getStaffById(@PathVariable(value = "id") Integer id) throws StaffNotFoundException{
-//        return staffRepository.findById(id)
-//                .orElseThrow(() -> new StaffNotFoundException(id));
-//    }
-//
-//    @CrossOrigin(origins = "http://localhost:63342")
-//    @GetMapping("/modules/{id}")
-//    public Module getModuleById(@PathVariable(value = "id") String id) throws ModuleNotFoundException{
-//        return moduleRepository.findById(id)
-//                .orElseThrow(() -> new ModuleNotFoundException(id));
-//    }
-//
-//    @CrossOrigin(origins = "http://localhost:63342")
-//    @GetMapping("/moduleEnrolments/{id}")
-//    public List<List<String>> getModulesAndGradesByStudentId(@PathVariable(value = "id") Integer id){
-//        List<ModuleEnrolment> enrolments = moduleEnrolmentRepository.findAll();
-//
-//        List<List<String>> modulesAndGrades = new ArrayList<List<String>>();
-//
-//        for (ModuleEnrolment enrolment:enrolments) {
-//            if(enrolment.getStudent().getStudentId().equals(id)){
-//                List<String> moduleAndGrade = new ArrayList<>();
-//                moduleAndGrade.add(enrolment.getModule().getModuleId());
-//                moduleAndGrade.add(enrolment.getGrade());
-//
-//                modulesAndGrades.add(moduleAndGrade);
-//            }
-//        }
-//
-//        return modulesAndGrades;
-//    }
-
-    // ===============================================================
     // POST mappings
     @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/students")
@@ -243,7 +184,7 @@ public class DarkvoidController {
     // ===============================================================
     // New mappings
     @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("students/nationalities")
+    @GetMapping("/students/nationalities")
     public List<String> getStudentNationalities(){
         List<String> nationalities = new ArrayList<>();
         for (Student student: studentRepository.findAll()) {
@@ -253,7 +194,7 @@ public class DarkvoidController {
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("staff/nationalities")
+    @GetMapping("/staff/nationalities")
     public List<String> getStaffNationalities(){
         List<String> nationalities = new ArrayList<>();
         for (Staff staff: staffRepository.findAll()) {
@@ -263,7 +204,7 @@ public class DarkvoidController {
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("students/genders")
+    @GetMapping("/students/genders")
     public List<String> getStudentGenders(){
         List<String> genders = new ArrayList<>();
         for (Student student: studentRepository.findAll()) {
@@ -273,7 +214,7 @@ public class DarkvoidController {
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("staff/genders")
+    @GetMapping("/staff/genders")
     public List<String> getStaffGenders(){
         List<String> genders = new ArrayList<>();
         for (Staff staff: staffRepository.findAll()) {
@@ -283,7 +224,7 @@ public class DarkvoidController {
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("students/grades")
+    @GetMapping("/students/grades")
     public List<String> getStudentGrades(){
         List<String> grades = new ArrayList<>();
         for (ModuleEnrolment moduleEnrolment: moduleEnrolmentRepository.findAll()) {
@@ -293,7 +234,7 @@ public class DarkvoidController {
     }
 
     @CrossOrigin(origins = "http://localhost:63342")
-    @PostMapping("isNewUsername")
+    @PostMapping("/isNewUsername")
     public int isNewUsername(@RequestBody Username username){
         for (Student student : studentRepository.findAll()) {
             if(student.getUsername().equals(username.getUsername())){
